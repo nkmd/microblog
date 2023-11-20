@@ -1,0 +1,13 @@
+{# app/Resources/views/content/home-page.html.twig #}
+{# шаблон для 'src/AppBundle/Controller/DefaultController.php' #}
+
+{% extends 'base.html.twig' %}
+
+{% block slider %}
+    <div class="slider">==slider==</div>
+{% endblock %}
+
+{% block body %}
+    <h1 class="test_number_twig">var1 {{ number }}</h1>
+    <h3 class="test_number_twig">var2 {{ text_var }}</h3>
+{% endblock %}

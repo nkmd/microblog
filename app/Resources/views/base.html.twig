@@ -2,22 +2,25 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome! 22 {% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <title>{% block title %} MicroBlog| Home Page {% endblock %}</title>
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-{#        <link rel="stylesheet" href="libs/bootstrap/css/bootstrap.min.css" />#}
         <link rel="stylesheet" href="{{ asset('libs/bootstrap/css/bootstrap.min.css') }}" />
-
+        <link rel="stylesheet" href="{{ asset('libs/main.css') }}" />
+        {% block stylesheets %}{% endblock %}
     </head>
+
     <body>
+        {% include 'parts/header.html.twig' %}
+
+        {% block slider %}{% endblock %}
+
         {% block body %}{% endblock %}
+
+        {% include 'parts/footer.html.twig' %}
+
+        <script src="{{ asset('libs/jq/jquery.slim.min.js') }}"></script>
+        <script src="{{ asset('libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ asset('libs/main.js') }}"></script>
         {% block javascripts %}{% endblock %}
     </body>
-
-
-    <script src="libs/jq/jquery.slim.min.js"></script>
-    <script src="libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="libs/main.js"></script>
-
-
 </html>

@@ -11,14 +11,11 @@ class DefaultController extends Controller
     /**
      * @Route("/", name="homepage")
      */
-    public function homePage()
+    public function indexAction(Request $request)
     {
-        $number='111';
-        $text_var='22';
-
-        return $this->render('content/home-page.html.twig', array(
-            'number' => $number,
-            'text_var' => $text_var,
+        // replace this example code with whatever you need
+        return $this->render('default/index.html.twig', array(
+            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
         ));
     }
 }
