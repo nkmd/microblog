@@ -6,17 +6,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class ArticlesController extends Controller
+class LoginController extends Controller
 {
     /**
-     * @Route("/articles", name="articles")
+     * @Route("/login", name="login")
      */
     public function articlesPage()
     {
-        $test='test articles';
+        $data='LOGIN test';;
 
-        return $this->render('content/articles-page.html.twig', array(
-            'test' => $test,
+        return $this->render('content/login-page.html.twig', array(
+            'data' => $data,
         ));
     }
 }

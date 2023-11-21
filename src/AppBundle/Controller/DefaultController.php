@@ -13,12 +13,12 @@ class DefaultController extends Controller
      */
     public function homePage()
     {
-        $number='111';
-        $text_var='22';
+        $data='home data';
+        $data2='home data2';
 
         return $this->render('content/home-page.html.twig', array(
-            'number' => $number,
-            'text_var' => $text_var,
+            'data' => $data,
+            'data2' => $data2,
         ));
     }
 }
