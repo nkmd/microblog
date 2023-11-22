@@ -3,11 +3,13 @@
 
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <div class="container">
-        Blog Page
-    </div>
 
-    <p>var1: {{ data }}</p>
+{% if message %}
+    <div class="alert alert-primary" role="alert">{{ message }}</div>
+{% endif %}
+
+{% block body %}
+
+    <div>{{ dump (data) }}</div>
 
 {% endblock %}

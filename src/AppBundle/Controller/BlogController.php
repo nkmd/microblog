@@ -1,29 +1,34 @@
 <?php
-
+/**
+ *  контролер BlogPage
+ */
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-//use Symfony\Component\HttpFoundation\Request;
-
 use AppBundle\Service\BlogService as BlogSrv;
-//use AppBundle\Model\BlogModel as BlogMdl;
 
 class BlogController extends Controller
 {
     /**
      * @Route("/blog", name="blog")
      */
-    public function articlesPage()
+
+    public function createBlogPage()
     {
-        //$data='test ARTICLES';
+        $checkData = new BlogSrv();
+        $checkResponse = $checkData->checkData();
+        if( !$checkResponse ) {
+            $message = 'Bad';
+            $data  = '';
+        } else {
+            $message = '';
+            $getData = $this->container->get('model_get_articles');
+            $data = $getData->getData();
+        }
 
-        $instance = new BlogSrv();
-        $data = $instance->blogResult();
-//        echo $data;
-//            die();
-
-        return $this->render('content/blog-page.html.twig', array(
+        return $this->render('content/home-page.html.twig', array(
+            'message' => $message,
             'data' => $data,
         ));
     }

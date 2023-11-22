@@ -1,14 +1,14 @@
 <?php
+/**
+ *  проверка данных BlogPage
+ */
 
 namespace AppBundle\Service;
-use AppBundle\Model\BlogModel as BlogMdl;
 
 class BlogService
 {
-    public function blogResult()
-    {
-        $instance = new BlogMdl();
-        $data = $instance -> model();
-        return  'answer Im Service List | ' . $data;
+    public function checkData() {
+        return false; // true false
     }
+
 }

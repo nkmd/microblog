@@ -21,5 +21,6 @@ class SearchController extends Controller
             'data' => $data,
         ));
     }
+
 }
 

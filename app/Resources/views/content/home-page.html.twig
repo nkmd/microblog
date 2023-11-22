@@ -4,10 +4,17 @@
 {% extends 'base.html.twig' %}
 
 {% block slider %}
-    <div class="slider">==slider==</div>
+    <div class="slider"></div>
 {% endblock %}
 
 {% block body %}
-    <h1 class="test_number_twig">var1 {{ data }}</h1>
-    <h3 class="test_number_twig">var2 {{ data2 }}</h3>
+{#    {% if message %}#}
+{#        <div class="alert alert-primary" role="alert">{{  message }}</div>#}
+{#    {% endif %}#}
+
+    <div>{{ dump (data) }}</div>
+
+    <h1 class="test_number_twig">var1 </h1>
+{#    <h1 class="test_number_twig">{{ dump (data) }}</h1>#}
+
 {% endblock %}
