@@ -8,7 +8,7 @@ namespace AppBundle\Service;
 class BlogService
 {
     public function checkData() {
-        return false; // true false
+        return true; // true false
     }
 
 }

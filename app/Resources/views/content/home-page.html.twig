@@ -8,13 +8,23 @@
 {% endblock %}
 
 {% block body %}
-{#    {% if message %}#}
-{#        <div class="alert alert-primary" role="alert">{{  message }}</div>#}
-{#    {% endif %}#}
 
-    <div>{{ dump (data) }}</div>
+    {% if message %}
+        <div class="alert alert-primary" role="alert">{{ message }}</div>
+    {% endif %}
 
-    <h1 class="test_number_twig">var1 </h1>
-{#    <h1 class="test_number_twig">{{ dump (data) }}</h1>#}
+
+    {#    <div>{{ dump (data) }}</div>#}
+    <div style="display:flex; flex-wrap: wrap;">
+        {% for entry in data %}
+            <div  style="border:1px solid black";>
+                <p> {{ entry.id }} </p>
+                <p> {{ entry.title}} </p>
+                <p> {{ entry.content }} </p>
+                <p> {{ entry.data }} </p>
+                <p> {{ entry.author_id }} </p>
+            </div>
+        {% endfor %}
+    </div>
 
 {% endblock %}

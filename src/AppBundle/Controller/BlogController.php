@@ -27,7 +27,7 @@ class BlogController extends Controller
             $data = $getData->getData();
         }
 
-        return $this->render('content/home-page.html.twig', array(
+        return $this->render('content/blog-page.html.twig', array(
             'message' => $message,
             'data' => $data,
         ));

@@ -13,11 +13,9 @@ class HomeModel
     }
 
     public function getData() {
-        $name = 'Nikolay';
         try {
-            $sql = "SELECT * FROM users WHERE name = :name LIMIT 5";
+            $sql = "SELECT * FROM articles ORDER BY `data` DESC LIMIT 6";
             $stmt = $this->connection->prepare($sql);
-            $stmt->bindValue("name", $name);
             $stmt->execute();
             $result = $stmt->fetchAll();
         } catch (\Exception $e) {

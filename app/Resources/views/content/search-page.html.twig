@@ -4,7 +4,34 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="container">
-        Search Page {{ data }}
+
+    <div>
+        <form method="get" action="/search">
+            <div class="">
+                <input class="" type="search" name="q" value="{{ checkResponse }}" placeholder="Поиск" />
+            </div>
+            <div class="">
+                <input type="submit" class="" value="Поиск" />
+            </div>
+        </form>
     </div>
+
+    {% if message %}
+        <div class="alert alert-primary" role="alert">{{ message }}</div>
+    {% endif %}
+
+
+    <div class="container" style="display:flex; flex-wrap: wrap;">
+        {% for entry in data %}
+            <div  style="border:1px solid black";>
+                <p> {{ entry.id }} </p>
+                <p> {{ entry.title}} </p>
+                <p> {{ entry.content }} </p>
+                <p> {{ entry.data }} </p>
+                <p> {{ entry.author_id }} </p>
+            </div>
+        {% endfor %}
+    </div>
+
+
 {% endblock %}

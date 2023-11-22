@@ -1,10 +1,29 @@
 {# app/Resources/views/content/login-page.html.twig #}
-{# шаблон для 'src/AppBundle/Controller/LoginPageController.php' #}
+{# шаблон для 'src/AppBundle/Controller/LoginController.php' #}
 
 {% extends 'base.html.twig' %}
 
+
 {% block body %}
-    <div class="container">
-        Login Page
+
+    <div>
+        <form method="post" action="/login">
+            <div class="">
+                <input class="" type="text" name="login" value="" placeholder="Login" />
+                <input class="" type="password" name="pass" value="" placeholder="Password" />
+            </div>
+            <div class="">
+                <input type="submit" class="" value="Enter" />
+            </div>
+        </form>
     </div>
+
+    {% if message %}
+        <div class="alert alert-primary" role="alert">{{ message }}</div>
+    {% endif %}
+
+
+   <div>{{ dump (data) }}</div>
+
+
 {% endblock %}

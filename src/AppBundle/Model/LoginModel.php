@@ -1,12 +1,12 @@
 <?php
 /**
- *  модель SearchPage
+ *  модель LoginPage
  */
 namespace AppBundle\Model;
 
 use Symfony\Component\DependencyInjection\ContainerInterface as Container;
 
-class SearchModel
+class LoginModel
 {
     private $container;
 

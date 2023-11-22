@@ -16,7 +16,7 @@ class BlogModel
     }
 
     public function getData() {
-        $sql = "SELECT * FROM articles";
+        $sql = "SELECT * FROM articles ORDER BY `data` DESC ";
         $conn = $this->container->get('database_connection');
         $result= $conn->fetchAll($sql);
 

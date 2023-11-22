@@ -25,7 +25,7 @@ class DefaultController extends Controller
             $data  = '';
         } else {
             $message = '';
-            $getData = $this->container->get('model_get_user');
+            $getData = $this->container->get('model_get_articles_home_page');
             $data = $getData->getData();
         }
 

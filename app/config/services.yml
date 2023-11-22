@@ -17,10 +17,14 @@ services:
 #        class:  AppBundle\Model\Test
 #        arguments:  ["@service_container"]
 
-    model_get_user:
+    model_get_articles_home_page:
         class: AppBundle\Model\HomeModel
         arguments: [ "@database_connection" ]
 
     model_get_articles:
         class: AppBundle\Model\BlogModel
+        arguments: [ "@service_container" ]
+
+    model_get_search:
+        class: AppBundle\Model\SearchModel
         arguments: [ "@service_container" ]

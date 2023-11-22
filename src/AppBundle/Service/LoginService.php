@@ -1,10 +1,9 @@
 <?php
 /**
- *  проверка данных SearchPage
+ *  проверка данных LoginPage
  */
 namespace AppBundle\Service;
-
-class SearchService
+class LoginService
 {
     public function checkData($query) {
         $data = trim(htmlspecialchars(htmlentities($query, ENT_QUOTES )));
