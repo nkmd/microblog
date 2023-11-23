@@ -28,3 +28,7 @@ services:
     model_get_search:
         class: AppBundle\Model\SearchModel
         arguments: [ "@service_container" ]
+
+    model_get_user:
+            class: AppBundle\Model\LoginModel
+            arguments: [ "@database_connection" ]

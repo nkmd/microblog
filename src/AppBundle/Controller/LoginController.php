@@ -8,6 +8,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+use AppBundle\Service\LoginService as LoginSrv;
+
 class LoginController extends Controller
 {
     /**
@@ -22,17 +24,18 @@ class LoginController extends Controller
             $login = $_POST['login'];
             $pass  = $_POST['pass'];
 
-            $data = $login .' '. $pass;
+            // проверка на валидность
+            $checkData = new LoginSrv();
+            $checkResponse = $checkData->checkData($login, $pass);
 
+            // Запрос в модель | array('login','pass')
+            $getData = $this->container->get('model_get_user');
+            $data = $getData->getData($checkResponse);
 
+            var_dump($data);
 
+            // РЕШЕНИЕ
 
-//            $checkData = new SearchSrv();
-//            $checkResponse = $checkData->checkData($query);
-//
-//            // Отправить в модель
-//            $getData = $this->container->get('model_get_search');
-//            $data = $getData->getData($checkResponse);
 
         } else {
             $message = 'Заполните все поля';

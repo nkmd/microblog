@@ -9,7 +9,12 @@
         {% block stylesheets %}{% endblock %}
     </head>
 
+
     <body>
+        <div>
+            {% block login_name %} {% endblock %}
+        </div>
+
         {% include 'parts/header.html.twig' %}
 
         {% block slider %}{% endblock %}

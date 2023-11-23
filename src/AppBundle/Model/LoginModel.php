@@ -2,22 +2,40 @@
 /**
  *  модель LoginPage
  */
-namespace AppBundle\Model;
 
-use Symfony\Component\DependencyInjection\ContainerInterface as Container;
+
+namespace AppBundle\Model;
+use Doctrine\DBAL\Connection;
 
 class LoginModel
 {
-    private $container;
-
-    public function __construct(Container $container)  {
-        $this->container = $container;
+    private $connection;
+    public function __construct(Connection $dbalConnection)  {
+        $this->connection = $dbalConnection;
     }
 
-    public function getData($checkResponse) {
-        $sql    = "SELECT * FROM articles WHERE `title` LIKE '%{$checkResponse}%' ";
-        $conn   = $this->container->get('database_connection');
-        $result = $conn->fetchAll($sql);
+    public function getData($checkResponse)
+    {
+        $result = $this->searchUser($checkResponse);
         return $result;
     }
+
+    public function searchUser($checkResponse) {
+        $login = $checkResponse['login'];
+        $pass  = $checkResponse['pass'];
+        try {
+            $sql = "SELECT * FROM users WHERE login = :login AND pass = :pass";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue("login", $login);
+            $stmt->bindValue("pass", $pass);
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+        } catch (\Exception $e) {
+            var_dump($e->getMessage());
+            exit;
+        }
+
+        return $result;
+    }
+
 }
