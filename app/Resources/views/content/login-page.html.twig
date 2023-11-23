@@ -3,9 +3,18 @@
 
 {% extends 'base.html.twig' %}
 
-{% block login %} LOGIN {% endblock %}
+
 
 {% block body %}
+
+{#    {% block user %}#}
+{#        <div>#}
+{#            {% if user_name %}#}
+{#                Приветствуем: {{ user_name }} статус: {{ user_role }}#}
+{#            {% endif %}#}
+{#        </div>#}
+{#    {% endblock %}#}
+
 
     <div>
         <form method="post" action="/login">
@@ -16,6 +25,10 @@
             <div class="">
                 <input type="submit" class="" value="Enter" />
             </div>
+        </form>
+
+        <form method="post" action="/login">
+            <input type="submit" class="" name="exit_btn" value="Exit" />
         </form>
     </div>
 

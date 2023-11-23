@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 use AppBundle\Service\LoginService as LoginSrv;
+use AppBundle\Service\SessionService as SessionSrv;
 
 class LoginController extends Controller
 {
@@ -17,6 +18,14 @@ class LoginController extends Controller
      */
     public function createLoginPage()
     {
+
+        $test =  new SessionSrv();
+        $test2 = $test->setSession();
+
+        if (isset($_POST['exit_btn'])) {
+            $this->endSession();
+        }
+
         if (isset($_POST['login']) && !empty($_POST['login']) &&
             isset($_POST['pass']) && !empty($_POST['pass'])) {
 
@@ -30,12 +39,16 @@ class LoginController extends Controller
 
             // Запрос в модель | array('login','pass')
             $getData = $this->container->get('model_get_user');
-            $data = $getData->getData($checkResponse);
+            $dataUser = $getData->getData($checkResponse);
 
-            var_dump($data);
+            if(count($dataUser) != 0){
+                $message = 'ОК';
+                $data = $this->startSession($dataUser);
 
-            // РЕШЕНИЕ
-
+            } else {
+                $message = 'Нет такого пользователя или учётные двнные не верны';
+                $data = '';
+            }
 
         } else {
             $message = 'Заполните все поля';
@@ -49,4 +62,24 @@ class LoginController extends Controller
             'data'    => $data,
         ));
     }
+
+
+    /* #############  Сесии ############# */
+    public function startSession($dataUser) {
+        var_dump($dataUser);
+
+        $test =  new SessionSrv();
+        $test2 = $test->setStatusSession($dataUser[0]['name'], $dataUser[0]['role'], time());
+
+//        var_dump($test2);
+//        die();
+
+    }
+
+    public function endSession() {
+        $test =  new SessionSrv();
+        $test2 = $test->destroySession();
+    }
+
+
 }
