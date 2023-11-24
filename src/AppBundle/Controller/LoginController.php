@@ -22,12 +22,13 @@ class LoginController extends Controller
         $test =  new SessionSrv();
         $test2 = $test->setSession();
 
-        if (isset($_POST['exit_btn'])) {
-            $this->endSession();
-        }
+//        if (isset($_POST['exit_btn'])) {
+//            $this->endSession();
+//        }
 
-        if (isset($_POST['login']) && !empty($_POST['login']) &&
-            isset($_POST['pass']) && !empty($_POST['pass'])) {
+        if ( isset($_POST['enter_btn']) &&
+            isset($_POST['login']) && !empty($_POST['login']) &&
+            isset($_POST['pass']) && !empty($_POST['pass']) ) {
 
             $message = '';
             $login = $_POST['login'];
@@ -66,7 +67,7 @@ class LoginController extends Controller
 
     /* #############  Сесии ############# */
     public function startSession($dataUser) {
-        var_dump($dataUser);
+        //var_dump($dataUser);
 
         $test =  new SessionSrv();
         $test2 = $test->setStatusSession($dataUser[0]['name'], $dataUser[0]['role'], time());
@@ -77,8 +78,8 @@ class LoginController extends Controller
     }
 
     public function endSession() {
-        $test =  new SessionSrv();
-        $test2 = $test->destroySession();
+//        $test =  new SessionSrv();
+//        $test2 = $test->destroySession();
     }
 
 
