@@ -5,45 +5,55 @@ namespace AppBundle\Service;
 class SessionService
 {
 
-    public function setSession(){
+    /*
+     *  старт сессии
+     *  если был авторизрван - вернуть данные польз.
+     *  return array();
+     */
+    public function startSession(){
         session_name('nk_session');// имя сесии
         ini_set('session.gc_maxlifetime',120);// жизнь сесии 'sec'
         ini_set('session.save_path', $_SERVER['DOCUMENT_ROOT'] .'/session_dir/');// директория сесии
         session_start();
 
-        if (isset($_POST['exit_btn'])) {
-            //$this->destroySession();
-            session_destroy();
-            echo 'destroy';
+        $sessionData = array();
+        if(isset($_SESSION['login']) && !empty($_SESSION['login'])) {
+
+            $sessionData = array(
+                'session_user_id'    => $_SESSION['id'],
+                'session_user_name'  => $_SESSION['name'],
+                'session_user_login' => $_SESSION['login'],
+                'session_user_role'  => $_SESSION['role'],
+                'session_time'       => $_SESSION['time'],
+            );
         }
 
-        if(isset($_SESSION['name']) && !empty($_SESSION['name'])){
-            echo '<h4> SESSION name : '.$_SESSION['name']. $_SESSION['role']. $_SESSION['time'].'</h4><br>';
-            //print_r($_SESSION);
-        }
+        return $sessionData;
+    }
+
 
 //        if(isset($_SESSION['time']) && (time()-$_SESSION['time']) > 60) {
 //            session_destroy();
 //            echo '<h2 style="color:red;"> время сессии истекло </h2><br>';
 //        }
 
-        return null;
-    }
 
-    public function setStatusSession($name, $role, $time){
-        $_SESSION['name'] = $name;
-        $_SESSION['role'] = $role;
-        $_SESSION['time'] = $time;
+
+    public function setUserSession($dataUser){
+        $_SESSION['id']    = $dataUser[0]['id'];
+        $_SESSION['name']  = $dataUser[0]['name'];
+        $_SESSION['login'] = $dataUser[0]['login'];
+        $_SESSION['role']  = $dataUser[0]['role'];
+        $_SESSION['time']  = time();
+
         session_write_close();
-        return null;
+        return true;
     }
 
-    public function destroySession(){
-        //session_unset();
-        session_destroy();
-        return null;
+    public function destroyUserSession(){
+        session_unset();
+        //session_destroy();
+        return true;
     }
-//    function getStatus(){
-//
-//    }
+
 }

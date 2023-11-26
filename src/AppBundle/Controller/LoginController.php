@@ -1,6 +1,6 @@
 <?php
 /**
- *   контроллер LoginPage
+ *  контролер LoginPage
  */
 namespace AppBundle\Controller;
 
@@ -8,8 +8,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-use AppBundle\Service\LoginService as LoginSrv;
 use AppBundle\Service\SessionService as SessionSrv;
+use AppBundle\Service\LoginService as LoginSrv;
+
 
 class LoginController extends Controller
 {
@@ -18,69 +19,62 @@ class LoginController extends Controller
      */
     public function createLoginPage()
     {
+        $message = '';
+        $data  = '';
+        $userLogin = false;
 
-        $test =  new SessionSrv();
-        $test2 = $test->setSession();
+        // сессия
+        $session =  new SessionSrv();
+        $sessionResult = $session->startSession();
 
-//        if (isset($_POST['exit_btn'])) {
-//            $this->endSession();
-//        }
+        if ( isset($sessionResult['session_user_login']) && !empty($sessionResult['session_user_login']) ) {
+            $userLogin = true;
+            var_dump($sessionResult);
+        } else {
+            var_dump($sessionResult);
+        }
+
+        if ( isset($_POST['exit_btn']) ) {
+            $endSession = $session->destroyUserSession();
+            if($endSession){
+                $userLogin = false;
+            }
+        }
 
         if ( isset($_POST['enter_btn']) &&
             isset($_POST['login']) && !empty($_POST['login']) &&
             isset($_POST['pass']) && !empty($_POST['pass']) ) {
 
-            $message = '';
-            $login = $_POST['login'];
-            $pass  = $_POST['pass'];
+                $login = $_POST['login'];
+                $pass  = $_POST['pass'];
 
-            // проверка на валидность
-            $checkData = new LoginSrv();
-            $checkResponse = $checkData->checkData($login, $pass);
+                // валидация введённых данных
+                $checkData = new LoginSrv();
+                $checkDataResponse = $checkData->checkData($login, $pass);
 
-            // Запрос в модель | array('login','pass')
-            $getData = $this->container->get('model_get_user');
-            $dataUser = $getData->getData($checkResponse);
+                // Запрос в модель | array('login','pass')
+                $getData = $this->container->get('model_get_user');
+                $userData = $getData->getData($checkDataResponse);
 
-            if(count($dataUser) != 0){
-                $message = 'ОК';
-                $data = $this->startSession($dataUser);
+                // авторизирован - запись в сесию
+                if(count($userData) != 0){
+                    $message = 'ОК (userData)';
+                    $setUserSession = $session->setUserSession($userData);
+                    if ($setUserSession){
+                        $message = 'ОК (setUserSession)';
+                        $userLogin = true;
+                    }
 
-            } else {
-                $message = 'Нет такого пользователя или учётные двнные не верны';
-                $data = '';
-            }
-
-        } else {
-            $message = 'Заполните все поля';
-            $checkResponse = '';
-            $data  = '';
+                } else {
+                    $message = 'Нет такого пользователя или учётные двнные не верны';
+                }
         }
 
         return $this->render('content/login-page.html.twig', array(
-            'message' => $message,
-            //'checkResponse' =>  $checkResponse,
-            'data'    => $data,
+            'message'   => $message,
+            'data'      => $data,
+            'userLogin' => $userLogin,
         ));
     }
-
-
-    /* #############  Сесии ############# */
-    public function startSession($dataUser) {
-        //var_dump($dataUser);
-
-        $test =  new SessionSrv();
-        $test2 = $test->setStatusSession($dataUser[0]['name'], $dataUser[0]['role'], time());
-
-//        var_dump($test2);
-//        die();
-
-    }
-
-    public function endSession() {
-//        $test =  new SessionSrv();
-//        $test2 = $test->destroySession();
-    }
-
 
 }

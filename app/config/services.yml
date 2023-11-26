@@ -32,3 +32,11 @@ services:
     model_get_user:
             class: AppBundle\Model\LoginModel
             arguments: [ "@database_connection" ]
+
+    model_add_article:
+            class: AppBundle\Model\AddArticleModel
+            arguments: [ "@database_connection" ]
+
+    model_get_category:
+              class: AppBundle\Model\CategoryModel
+              arguments: [ "@database_connection" ]

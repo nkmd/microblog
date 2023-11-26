@@ -19,22 +19,23 @@ class DefaultController extends Controller
 
     public function createHomePage()
     {
-        $test =  new SessionSrv();
-        $test2 = $test->setSession();
+
+       $message = '';
+       $banner = 'libs/img/bg_banner.jpg';
+       $data = '';
 
         $checkData = new HomeSrv();
         $checkResponse = $checkData->checkData();
         if( !$checkResponse ) {
             $message = 'Bad';
-            $data  = '';
         } else {
-            $message = '';
             $getData = $this->container->get('model_get_articles_home_page');
             $data = $getData->getData();
         }
 
         return $this->render('content/home-page.html.twig', array(
             'message' => $message,
+            'banner' => $banner,
             'data' => $data,
         ));
     }

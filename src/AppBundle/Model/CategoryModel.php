@@ -1,20 +1,20 @@
 <?php
 /**
- *  модель HomePage
+ *  модель Category
  */
 namespace AppBundle\Model;
 use Doctrine\DBAL\Connection;
 
-class HomeModel
+class CategoryModel
 {
     private $connection;
     public function __construct(Connection $dbalConnection)  {
         $this->connection = $dbalConnection;
     }
 
-    public function getData() {
+    public function getCategoryList() {
         try {
-            $sql = "SELECT * FROM articles ORDER BY `date` DESC LIMIT 6";
+            $sql = "SELECT * FROM category ORDER BY `slug` ";
             $stmt = $this->connection->prepare($sql);
             $stmt->execute();
             $result = $stmt->fetchAll();
