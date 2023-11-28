@@ -12,7 +12,7 @@ class SessionService
      */
     public function startSession(){
         session_name('nk_session');// имя сесии
-        ini_set('session.gc_maxlifetime',120);// жизнь сесии 'sec'
+        //ini_set('session.gc_maxlifetime',120);// жизнь сесии 'sec'
         ini_set('session.save_path', $_SERVER['DOCUMENT_ROOT'] .'/session_dir/');// директория сесии
         session_start();
 
@@ -39,11 +39,11 @@ class SessionService
 
 
 
-    public function setUserSession($dataUser){
-        $_SESSION['id']    = $dataUser[0]['id'];
-        $_SESSION['name']  = $dataUser[0]['name'];
-        $_SESSION['login'] = $dataUser[0]['login'];
-        $_SESSION['role']  = $dataUser[0]['role'];
+    public function setUserSession($userData){
+        $_SESSION['id']    = $userData[0]['id'];
+        $_SESSION['name']  = $userData[0]['name'];
+        $_SESSION['login'] = $userData[0]['login'];
+        $_SESSION['role']  = $userData[0]['role'];
         $_SESSION['time']  = time();
 
         session_write_close();
@@ -51,8 +51,8 @@ class SessionService
     }
 
     public function destroyUserSession(){
-        session_unset();
-        //session_destroy();
+        //session_unset();
+        session_destroy();
         return true;
     }
 

@@ -31,16 +31,19 @@
                         </li>
                 </ul>
 
-                {% if checkResponse is defined %}{% endif %}
-                <span class="navbar-brand" href="#"> Приветствуем: user_name </span>
-                <small class="text-muted"><span class="badge badge-primary"> _vip_ </span></small>
+{#                {% if user_authorized|length > 0 %}#}
+{#                {% if user_authorized %}#}
+                {% if user_authorized is defined %}
+                <span class="navbar-brand" href="#"> {{ user_authorized.session_user_name }} </span>
+                <small class="text-muted"><span class="badge badge-primary"> {{ user_authorized.session_user_role }}</span></small>
+                {% endif %}
                 &nbsp; &nbsp; &nbsp;
 
                 <form class="form-inline my-2 my-lg-0" action="{{ path('search') }}">
-                        {% if checkResponse is defined %}
-                        <input class="form-control mr-sm-2" type="text" placeholder="" aria-label="Search" name="q" value="{{ checkResponse }}">
+                        {% if search_value is defined %}
+                        <input class="form-control mr-sm-2" type="text" placeholder="" aria-label="Search" name="q" value="{{ search_value }}"/>
                         {% else %}
-                        <input class="form-control mr-sm-2" type="text" placeholder="" aria-label="Search" name="q" value="">
+                        <input class="form-control mr-sm-2" type="text" placeholder="" aria-label="Search" name="q" value=" "/>
                         {% endif %}
                         <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Поиск</button>
                 </form>

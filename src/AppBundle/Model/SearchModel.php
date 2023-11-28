@@ -15,7 +15,7 @@ class SearchModel
     }
 
     public function getData($checkResponse) {
-        $sql    = "SELECT * FROM articles WHERE `title` LIKE '%{$checkResponse}%' ";
+        $sql    = "SELECT * FROM articles LEFT JOIN category ON articles.category_id = category.id WHERE `title` LIKE '%{$checkResponse}%' ORDER BY articles.date DESC ";
         $conn   = $this->container->get('database_connection');
         $result = $conn->fetchAll($sql);
         return $result;

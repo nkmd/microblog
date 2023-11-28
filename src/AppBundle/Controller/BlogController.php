@@ -18,22 +18,24 @@ class BlogController extends Controller
     public function createBlogPage()
     {
         $getCategoryList ='';
-        $category = '';
+        $categoryId = '';
         $message = '';
         $data  = '';
 
         if(isset($_GET['filter']) && $_GET['filter'] != 0) {
             // валидация категории
-            $category = $_GET['filter'];
+            $categoryId = $_GET['filter'];
             $sanitizeCategory = new CategorySrv();
-            $sanitizeCategoryResult = $sanitizeCategory->checkData($category);
+            $sanitizeCategoryResult = $sanitizeCategory->checkData($categoryId);
 
             // отправка в модель категорий
             $getCategory = $this->container->get('model_get_category');
             $getCategoryList   =  $getCategory -> getCategoryList();
             $getCategoryResult =  $getCategory -> getCategoryById($sanitizeCategoryResult);
 
-            $message = 'Фильтр по категории: ' . $getCategoryResult[0]['name'];
+            if($getCategoryResult){
+                $message = 'Фильтр по категории: ' . $getCategoryResult[0]['name'];
+            }
 
             // отправка в модель блога (статьи,публикации)
             $getArticles = $this->container->get('model_get_articles');
@@ -61,6 +63,7 @@ class BlogController extends Controller
         }
 
         return $this->render('content/blog-page.html.twig', array(
+            'category_id'   => $categoryId,
             'category_list' => $getCategoryList,
             'message'       => $message,
             'data'          => $data,

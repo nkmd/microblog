@@ -7,11 +7,11 @@ namespace AppBundle\Service;
 
 class CategoryService
 {
-    public function checkData($category) {
+    public function checkData($categoryId) {
         $sanitize = '';
 
-        if (isset($category)) {
-            $sanitize = (int) abs($category);
+        if (isset($categoryId)) {
+            $sanitize = (int) abs($categoryId);
         }
 
         return $sanitize;

@@ -1,6 +1,6 @@
 {# app/Resources/views/content/blog-page.html.twig #}
 {# шаблон для 'src/AppBundle/Controller/BlogPageController.php' #}
-{#                {{ dump(category_list) }}  #}
+{#  {{ dump(category_list) }}    {{ dump(data) }}  #}
 
 
 {% extends 'base.html.twig' %}
@@ -12,6 +12,7 @@
         <div class="alert alert-primary message_nk" role="alert">{{ message }}</div>
     {% endif %}
 
+
     <div class="album py-5 bg-light">
         <div class="container">
             <h2>Все публикации автора:</h2>
@@ -20,14 +21,17 @@
             <div>
                 <nav class="navbar navbar-light bg-light">
                     <form class="form-inline" action="/blog" method="get">
-
                         <select class="custom-select" name="filter">
                             <option selected value="0">Категория:</option>
                             {% for entry in category_list %}
-                                <option value="{{ entry.id }}">{{ entry.name }}</option>
+                                {% if  entry.id == category_id %}
+                                    <option value="{{ entry.id }}" selected>{{ entry.name }}</option>
+                                {% else %}
+                                    <option value="{{ entry.id }}" >{{ entry.name }}</option>
+                                {% endif %}
                             {% endfor %}
                         </select>
-
+                        &nbsp; &nbsp;
                         <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Фильтровать" />
                     </form>
                 </nav>
@@ -50,7 +54,9 @@
                                     {% endif %}
                                 </div>
                                 <h2>{{ entry.title }}</h2>
-                                <p class="card-text"> {{ entry.content }} </p>
+                                {% if entry.content|length > 0 %}
+                                    <p class="card-text">{{ entry.content|slice(0, 50) ~ '...' }}</p>
+                                {% endif %}
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
                                         <a href="#" type="button" class="btn btn-sm btn-outline-secondary">Читать</a>
@@ -71,16 +77,3 @@
     </div>
 
 {% endblock %}
-
-
-
-{#'id' => string '1' (length=1)#}
-{#'title' => string 'php new post' (length=12)#}
-{#'content' => string 'php new post content...' (length=23)#}
-{#'date' => string '2023-11-27' (length=10)#}
-{#'author_id' => string '6' (length=1)#}
-{#'status' => string 'published' (length=9)#}
-{#'access' => string 'all' (length=3)#}
-{#'category_id' => string '1' (length=1)#}
-{#'name' => string 'Linux' (length=5)#}
-{#'slug' => string 'linux' (length=5)#}

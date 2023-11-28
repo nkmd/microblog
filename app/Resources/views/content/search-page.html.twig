@@ -1,38 +1,66 @@
 {# app/Resources/views/content/search-page.html.twig #}
 {# шаблон для 'src/AppBundle/Controller/SearchPageController.php' #}
-{# fff #}
+
 {% extends 'base.html.twig' %}
 
 {% block body %}
 
-    <div>
-        <form method="get" action="/search">
-            <div class="">
-                <input class="" type="search" name="q" value="{{ checkResponse }}" placeholder="Поиск" />
-            </div>
-            <div class="">
-                <input type="submit" class="" value="Поиск" />
-            </div>
-        </form>
-    </div>
-
     {% if message %}
-        <div class="alert alert-primary" role="alert">{{ message }}</div>
+        <div class="alert alert-primary message_nk" role="alert">{{ message }}</div>
     {% endif %}
 
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <h2>Поиск по заголовку публикации:</h2>
+            <p>&nbsp;</p>
 
-    <div class="container" style="display:flex; flex-wrap: wrap;">
-        {% for entry in data %}
-            <div  style="border:1px solid black";>
-                <p> {{ entry.id }} </p>
-                <p> {{ entry.title}} </p>
-                <p> {{ entry.content }} </p>
-                <p> {{ entry.date }} </p>
-                <p> {{ entry.author_id }} </p>
-                <p> {{ entry.status }} </p>
-                <p> {{ entry.access }} </p>
+            <div>
+                <nav class="navbar navbar-light bg-light">
+                    <form class="form-inline" action="/search" method="get">
+                        <input type="text" class="form-control" name="q" value="{{ search_value }}" placeholder="Поиск" />
+                        &nbsp; &nbsp;
+                        <input class="btn btn-primary" type="submit" value="Поиск" />
+                    </form>
+                </nav>
             </div>
-        {% endfor %}
+
+            <p>&nbsp;</p>
+
+
+            <div class="row">
+
+                {% for entry in data %}
+                    <div class="col-md-4">
+                        <div class="card mb-4 box-shadow">
+                            <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">категория: {{ entry.name }}</small>
+                                    {% if entry.access == 'vip' %}
+                                        <small class="text-muted"><span class="badge badge-primary"> {{ entry.access }} </span></small>
+                                    {% endif %}
+                                </div>
+                                <h2>{{ entry.title }}</h2>
+                                {% if entry.content|length > 0 %}
+                                    <p class="card-text">{{ entry.content|slice(0, 50) ~ '...' }}</p>
+                                {% endif %}
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <a href="#" type="button" class="btn btn-sm btn-outline-secondary">Читать</a>
+
+                                        <a href="#" type="button" class="btn btn-sm btn-outline-secondary">Ред.</a>
+                                        <a href="#" type="button" class="btn btn-sm btn-outline-secondary">Удал.</a>
+
+                                    </div>
+                                    <small class="text-muted">{{ entry.date }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
     </div>
 
 

@@ -6,8 +6,8 @@ namespace AppBundle\Service;
 
 class SearchService
 {
-    public function checkData($query) {
-        $data = trim(htmlspecialchars(htmlentities($query, ENT_QUOTES )));
+    public function checkData($searchValue) {
+        $data = trim(htmlspecialchars(htmlentities($searchValue, ENT_QUOTES )));
         return $data;
     }
 }

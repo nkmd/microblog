@@ -12,9 +12,10 @@ class HomeModel
         $this->connection = $dbalConnection;
     }
 
-    public function getData() {
+    public function getArticles() {
         try {
-            $sql = "SELECT * FROM articles ORDER BY `date` DESC LIMIT 6";
+            //$sql = "SELECT * FROM articles ORDER BY `date` DESC LIMIT 6";
+            $sql = "SELECT * FROM articles LEFT JOIN category ON articles.category_id = category.id ORDER BY articles.date DESC LIMIT 6";
             $stmt = $this->connection->prepare($sql);
             $stmt->execute();
             $result = $stmt->fetchAll();

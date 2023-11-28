@@ -20,27 +20,33 @@ class LoginController extends Controller
     public function createLoginPage()
     {
         $message = '';
-        $data  = '';
-        $userLogin = false;
+        $userAuthorized = '';
 
-        // сессия
+        // Инициализация СЕССИИ
         $session =  new SessionSrv();
         $sessionResult = $session->startSession();
 
         if ( isset($sessionResult['session_user_login']) && !empty($sessionResult['session_user_login']) ) {
-            $userLogin = true;
-            var_dump($sessionResult);
+            $userAuthorized = $sessionResult;
+            $message = 'Приветствуем: ' . $userAuthorized['session_user_name'] . '; ';
+            $message .= 'Ваш логин: ' . $userAuthorized['session_user_login'] . '; ';
+            $message .= 'Ваш статус: ' . $userAuthorized['session_user_role'] . '; ';
+
+        // debug:
+            var_dump($userAuthorized);
         } else {
-            var_dump($sessionResult);
+            var_dump($userAuthorized);
         }
 
+        // ВЫХОД  из кабинета
         if ( isset($_POST['exit_btn']) ) {
             $endSession = $session->destroyUserSession();
             if($endSession){
-                $userLogin = false;
+                $userAuthorized = '';
             }
         }
 
+        // ВХОД в Кабинет
         if ( isset($_POST['enter_btn']) &&
             isset($_POST['login']) && !empty($_POST['login']) &&
             isset($_POST['pass']) && !empty($_POST['pass']) ) {
@@ -48,21 +54,20 @@ class LoginController extends Controller
                 $login = $_POST['login'];
                 $pass  = $_POST['pass'];
 
-                // валидация введённых данных
-                $checkData = new LoginSrv();
-                $checkDataResponse = $checkData->checkData($login, $pass);
+                // валидация введённых данных (return: array())
+                $sanitizeValue = new LoginSrv();
+                $sanitizeValueResponse = $sanitizeValue->checkData($login, $pass);
 
                 // Запрос в модель | array('login','pass')
-                $getData = $this->container->get('model_get_user');
-                $userData = $getData->getData($checkDataResponse);
+                $getUser = $this->container->get('model_get_user');
+                $getUserResponse = $getUser->getData($sanitizeValueResponse);
 
-                // авторизирован - запись в сесию
-                if(count($userData) != 0){
-                    $message = 'ОК (userData)';
-                    $setUserSession = $session->setUserSession($userData);
+                // авторизирован - запись в СЕСИЮ
+                if(count($getUserResponse) != 0){
+                    $setUserSession = $session->setUserSession($getUserResponse);
                     if ($setUserSession){
-                        $message = 'ОК (setUserSession)';
-                        $userLogin = true;
+                        $userAuthorized = $setUserSession;
+                        $message = 'Добро пожаловать: ' . $userAuthorized['session_user_login'];
                     }
 
                 } else {
@@ -71,9 +76,8 @@ class LoginController extends Controller
         }
 
         return $this->render('content/login-page.html.twig', array(
-            'message'   => $message,
-            'data'      => $data,
-            'userLogin' => $userLogin,
+            'message'         => $message,
+            'user_authorized' => $userAuthorized,
         ));
     }
 

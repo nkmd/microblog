@@ -28,7 +28,6 @@ class BlogModel
         $sql = "SELECT * FROM articles LEFT JOIN category ON articles.category_id = category.id WHERE '$category' = `category_id`  ORDER BY articles.date DESC ";
         $conn = $this->container->get('database_connection');
         $result= $conn->fetchAll($sql);
-
         return $result;
     }
 
