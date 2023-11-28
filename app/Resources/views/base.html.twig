@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Пример авторского блога. Symfony 2.8 (Т.З. 2023г.)">
+        <meta name="Nikolay [ www.nikolay.nk.md ]" content="">
+        <link rel="icon" type="image/x-icon" href="{{ asset('assets/img/favicon.ico') }}" />
+
+        <title>{% block title %} ..:: MicroBlog ::.. | Авторский блог. {% endblock %}</title>
+
+        <link rel="stylesheet" href="{{ asset('assets/bootstrap/css/bootstrap.min.css') }}" />
+        <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}" />
+
+        {% block stylesheets %}{% endblock %}
+    </head>
+
+    <body>
+        {% include 'parts/header.html.twig' %}
+
+        <main role="main">
+            {% block banner %}{% endblock %}
+
+
+            {% block body %}{% endblock %}
+        </main>
+
+        {% include 'parts/footer.html.twig' %}
+
+        <script src="{{ asset('assets/js/jquery.slim.min.js') }}"></script>
+        <script src="{{ asset('assets/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+        <script src="{{ asset('assets/js/popper.min.js') }}"></script>
+        <script src="{{ asset('assets/js/holder.min.js') }}"></script>
+        <script src="{{ asset('assets/js/main.js') }}"></script>
+        {% block javascripts %}{% endblock %}
+    </body>
+</html>

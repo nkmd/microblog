@@ -1,0 +1,48 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+
+        <a class="navbar-brand" href="{{ path('homepage') }}">..:: MicroBlog ::..</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+                <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                                <a class="nav-link" href="{{ path('homepage') }}"> Главная <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                                <a class="nav-link" href="{{ path('blog') }}"> Статьи </a>
+                        </li>
+                        <li class="nav-item">
+                                <a class="nav-link" href="{{ path('search') }}"> Поиск </a>
+                        </li>
+                        <li class="nav-item">
+                                <a class="nav-link disabled" href="#">Vip</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Кабинет </a>
+                                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                                        <a class="dropdown-item" href="{{ path('login') }}"> Авторизация </a>
+                                        <a class="dropdown-item" href="{{ path('addarticle') }}"> Добавить статью</a>
+                                        <a class="dropdown-item" disabled href="#">Добавить категорию</a>
+                                        <a class="dropdown-item" disabled href="#">Панель управления</a>
+                                </div>
+                        </li>
+                </ul>
+
+                {% if checkResponse is defined %}{% endif %}
+                <span class="navbar-brand" href="#"> Приветствуем: user_name </span>
+                <small class="text-muted"><span class="badge badge-primary"> _vip_ </span></small>
+                &nbsp; &nbsp; &nbsp;
+
+                <form class="form-inline my-2 my-lg-0" action="{{ path('search') }}">
+                        {% if checkResponse is defined %}
+                        <input class="form-control mr-sm-2" type="text" placeholder="" aria-label="Search" name="q" value="{{ checkResponse }}">
+                        {% else %}
+                        <input class="form-control mr-sm-2" type="text" placeholder="" aria-label="Search" name="q" value="">
+                        {% endif %}
+                        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Поиск</button>
+                </form>
+        </div>
+</nav>

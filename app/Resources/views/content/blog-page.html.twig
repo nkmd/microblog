@@ -1,0 +1,86 @@
+{# app/Resources/views/content/blog-page.html.twig #}
+{# шаблон для 'src/AppBundle/Controller/BlogPageController.php' #}
+{#                {{ dump(category_list) }}  #}
+
+
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+    {% if message %}
+        <div class="alert alert-primary message_nk" role="alert">{{ message }}</div>
+    {% endif %}
+
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <h2>Все публикации автора:</h2>
+            <p>&nbsp;</p>
+
+            <div>
+                <nav class="navbar navbar-light bg-light">
+                    <form class="form-inline" action="/blog" method="get">
+
+                        <select class="custom-select" name="filter">
+                            <option selected value="0">Категория:</option>
+                            {% for entry in category_list %}
+                                <option value="{{ entry.id }}">{{ entry.name }}</option>
+                            {% endfor %}
+                        </select>
+
+                        <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Фильтровать" />
+                    </form>
+                </nav>
+            </div>
+
+            <p>&nbsp;</p>
+
+
+            <div class="row">
+
+                {% for entry in data %}
+                    <div class="col-md-4">
+                        <div class="card mb-4 box-shadow">
+                            <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">категория: {{ entry.name }}</small>
+                                    {% if entry.access == 'vip' %}
+                                        <small class="text-muted"><span class="badge badge-primary"> {{ entry.access }} </span></small>
+                                    {% endif %}
+                                </div>
+                                <h2>{{ entry.title }}</h2>
+                                <p class="card-text"> {{ entry.content }} </p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <a href="#" type="button" class="btn btn-sm btn-outline-secondary">Читать</a>
+
+                                        <a href="#" type="button" class="btn btn-sm btn-outline-secondary">Ред.</a>
+                                        <a href="#" type="button" class="btn btn-sm btn-outline-secondary">Удал.</a>
+
+                                    </div>
+                                    <small class="text-muted">{{ entry.date }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+
+{#'id' => string '1' (length=1)#}
+{#'title' => string 'php new post' (length=12)#}
+{#'content' => string 'php new post content...' (length=23)#}
+{#'date' => string '2023-11-27' (length=10)#}
+{#'author_id' => string '6' (length=1)#}
+{#'status' => string 'published' (length=9)#}
+{#'access' => string 'all' (length=3)#}
+{#'category_id' => string '1' (length=1)#}
+{#'name' => string 'Linux' (length=5)#}
+{#'slug' => string 'linux' (length=5)#}

@@ -1,0 +1,45 @@
+{# app/Resources/views/content/login-page.html.twig #}
+{# шаблон для 'src/AppBundle/Controller/LoginController.php' #}
+
+{% extends 'base.html.twig' %}
+
+
+
+{% block body %}
+
+{#    {% block user %}#}
+{#        <div>#}
+{#            {% if user_name %}#}
+{#                Приветствуем: {{ user_name }} статус: {{ user_role }}#}
+{#            {% endif %}#}
+{#        </div>#}
+{#    {% endblock %}#}
+
+
+    <div>
+        {% if userLogin == false %}
+        <form method="post" action="/login">
+            <div class="">
+                <input class="" type="text" name="login" value="" placeholder="Login" />
+                <input class="" type="password" name="pass" value="" placeholder="Password" />
+            </div>
+            <div class="">
+                <input type="submit" class="" name="enter_btn" value="Enter" />
+            </div>
+        </form>
+        {% else %}
+        <form method="post" action="/login">
+            <input type="submit" class="" name="exit_btn" value="Exit" />
+        </form>
+        {% endif %}
+    </div>
+
+    {% if message %}
+        <div class="alert alert-primary" role="alert">{{ message }}</div>
+    {% endif %}
+
+    <div>userlogin: {{ dump (userLogin) }}</div>
+    <div>data: {{ dump (data) }}</div>
+
+
+{% endblock %}

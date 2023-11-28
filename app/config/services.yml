@@ -1,0 +1,42 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+#    parameter_name: value
+
+
+services:
+#    service_name:
+#        class: AppBundle\Directory\ClassName
+#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+
+#  test:
+#    class:  AppBundle\Model\Test
+#    arguments:  ["@database_connection"]
+#
+#    test:
+#        class:  AppBundle\Model\Test
+#        arguments:  ["@service_container"]
+
+    model_get_articles_home_page:
+        class: AppBundle\Model\HomeModel
+        arguments: [ "@database_connection" ]
+
+    model_get_articles:
+        class: AppBundle\Model\BlogModel
+        arguments: [ "@service_container" ]
+
+    model_get_search:
+        class: AppBundle\Model\SearchModel
+        arguments: [ "@service_container" ]
+
+    model_get_user:
+            class: AppBundle\Model\LoginModel
+            arguments: [ "@database_connection" ]
+
+    model_add_article:
+            class: AppBundle\Model\AddArticleModel
+            arguments: [ "@database_connection" ]
+
+    model_get_category:
+              class: AppBundle\Model\CategoryModel
+              arguments: [ "@database_connection" ]

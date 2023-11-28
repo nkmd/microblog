@@ -1,0 +1,64 @@
+{# app/Resources/views/content/add-article-page.html.twig #}
+{# шаблон для 'src/AppBundle/Controller/AddArticleController.php' #}
+
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+    {% if message %}
+        <div class="alert alert-primary" role="alert">{{ message }}</div>
+    {% endif %}
+
+
+
+    <div>
+        <form method="post" action="/addarticle">
+            <div>
+                <select name="category">
+                    {% for entry in data.category_list %}
+                    <option value="{{ entry.id }}">{{ entry.name }}</option>
+                    {% endfor %}#}
+                </select>
+            </div>
+
+            <div>
+                <select name="status">
+                    <option value="published">Published article</option>
+                    <option value="draft">Draft article</option>
+                    <option value="deleted">Deleted article</option>
+                </select>
+            </div>
+            <div>
+                <select name="access">
+                    <option value="all">All Can Read</option>
+                    <option value="vip">VIP Can Read</option>
+                </select>
+            </div>
+
+            <div class="">
+                <input class="" type="date" name="date" value="" placeholder="" />
+            </div>
+
+            <div class="">
+                <input class="" type="text" name="title" value="" placeholder="Title" />
+            </div>
+            <div class="">
+                <textarea class="" type="" name="content" value="" placeholder="Content"></textarea>
+            </div>
+            <div class="">
+                <input class="" type="submit" value="_ADD_" name="add_article_btn"/>
+            </div>
+        </form>
+    </div>
+
+
+
+    <div> <div>{{ data.content }}</div></div>
+
+
+
+
+    <div>{{ dump (data) }}</div>
+
+{% endblock %}

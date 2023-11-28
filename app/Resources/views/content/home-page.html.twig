@@ -1,0 +1,80 @@
+{# app/Resources/views/content/home-page.html.twig #}
+{# шаблон для 'src/AppBundle/Controller/DefaultController.php' #}
+
+{% extends 'base.html.twig' %}
+
+
+{% block banner %}
+    <div class="jumbotron bgr_banner" style=" {{ banner }} ">
+        <div class="container" style="">
+            <h1 class="display-3" style="color:#d3cfcf;">Пример Авторского Блога.</h1>
+            <h4 style="color:#d3cfcf"> !!! "старьё" сие -  развёрнуто, условию Т.З. согласно !!! </h4>
+            <h4 style="color:#d3cfcf"> Cреда: VirtualBox; ОС Linux; Apache 2.4; Php 5.6; MySql 14.14; Symfony 2.8; Composer; | © 2023</h4>
+            <p>&nbsp;</p>
+            <p><a class="btn btn-primary btn-lg" href="{{ path('blog') }}" role="button">Все публикации автора &raquo;</a></p>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block body %}
+
+    {% if message %}
+        <div class="alert alert-primary" role="alert">{{ message }}</div>
+    {% endif %}
+
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <h2>Последнии статьи:</h2>
+            <p>&nbsp;</p>
+            <div class="row">
+
+                {% for entry in data %}
+                <div class="col-md-4">
+                    <div class="card mb-4 box-shadow">
+                        <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">_category_</small>
+                                {% if entry.access == 'vip' %}
+                                <small class="text-muted"><span class="badge badge-primary"> {{ entry.access }} </span></small>
+                                {% endif %}
+                            </div>
+                            <h2>{{ entry.title }}</h2>
+                            <p class="card-text"> {{ entry.content }} </p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <a href="#" type="button" class="btn btn-sm btn-outline-secondary">Читать</a>
+
+                                    <a href="#" type="button" class="btn btn-sm btn-outline-secondary">Ред.</a>
+                                    <a href="#" type="button" class="btn btn-sm btn-outline-secondary">Удал.</a>
+
+                                </div>
+                                <small class="text-muted">{{ entry.date }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+
+
+    {#    <div>{{ dump (data) }}</div>#}
+{#    <div style="display:flex; flex-wrap: wrap;">#}
+{#        {% for entry in data %}#}
+{#            <div  style="border:1px solid black";>#}
+{#                <p> {{ entry.id }} </p>#}
+{#                <p> {{ entry.title}} </p>#}
+{#                <p> {{ entry.content }} </p>#}
+{#                <p> {{ entry.date }} </p>#}
+{#                <p> {{ entry.author_id }} </p>#}
+{#                <p> {{ entry.status }} </p>#}
+{#                <p> {{ entry.access}} </p>#}
+{#            </div>#}
+{#        {% endfor %}#}
+{#    </div>#}
+
+{% endblock %}
