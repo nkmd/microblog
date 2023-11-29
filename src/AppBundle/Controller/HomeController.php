@@ -22,9 +22,18 @@ class HomeController extends Controller
     {
 
        $banner = 'background: #000 url(/assets/img/bg_banner_2.jpg);';
+        $userAuthorized = '';
         $category = '';
         $message = '';
         $data  = '';
+
+        // Инициализация СЕССИИ
+        $session =  new SessionSrv();
+        $sessionResult = $session->startSession();
+
+        if ( isset($sessionResult['session_user_login']) && !empty($sessionResult['session_user_login']) ) {
+            $userAuthorized = $sessionResult;
+        }
 
         // валидация блога(не тр. на буд.)
         $sanitizeData = new HomeSrv();
@@ -43,6 +52,7 @@ class HomeController extends Controller
 
 
         return $this->render('content/home-page.html.twig', array(
+            'user_authorized' => $userAuthorized,
             'message' => $message,
             'banner' => $banner,
             'data' => $data,

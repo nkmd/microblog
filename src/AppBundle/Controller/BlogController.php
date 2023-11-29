@@ -6,6 +6,8 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+use AppBundle\Service\SessionService as SessionSrv;
 use AppBundle\Service\CategoryService as CategorySrv;
 use AppBundle\Service\BlogService as BlogSrv;
 
@@ -17,10 +19,19 @@ class BlogController extends Controller
 
     public function createBlogPage()
     {
+        $userAuthorized = '';
         $getCategoryList ='';
         $categoryId = '';
         $message = '';
         $data  = '';
+
+        // Инициализация СЕССИИ
+        $session =  new SessionSrv();
+        $sessionResult = $session->startSession();
+
+        if ( isset($sessionResult['session_user_login']) && !empty($sessionResult['session_user_login']) ) {
+            $userAuthorized = $sessionResult;
+        }
 
         if(isset($_GET['filter']) && $_GET['filter'] != 0) {
             // валидация категории
@@ -63,6 +74,7 @@ class BlogController extends Controller
         }
 
         return $this->render('content/blog-page.html.twig', array(
+            'user_authorized' => $userAuthorized,
             'category_id'   => $categoryId,
             'category_list' => $getCategoryList,
             'message'       => $message,

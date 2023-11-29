@@ -17,6 +17,11 @@ services:
 #        class:  AppBundle\Model\Test
 #        arguments:  ["@service_container"]
 
+
+    app.message_generator:
+        class: AppBundle\Service\MessageService
+        arguments: [ ]
+
     model_get_articles_home_page:
         class: AppBundle\Model\HomeModel
         arguments: [ "@database_connection" ]
@@ -31,6 +36,10 @@ services:
 
     model_get_user:
             class: AppBundle\Model\LoginModel
+            arguments: [ "@database_connection" ]
+
+    model_get_article:
+            class: AppBundle\Model\ArticleModel
             arguments: [ "@database_connection" ]
 
     model_add_article:

@@ -20,23 +20,21 @@ class AddArticleController extends Controller
 
     public function createAddArticlePage()
     {
-        $userLogin = false;
+        $userAuthorized = '';
         $message = '';
         $data  = array();
 
-        // сессия
+        // Инициализация СЕССИИ
         $session =  new SessionSrv();
         $sessionResult = $session->startSession();
 
         if ( isset($sessionResult['session_user_login']) && !empty($sessionResult['session_user_login']) ) {
-            $userLogin = true;
-            var_dump($sessionResult);
-        } else {
-            var_dump($sessionResult);
+            $userAuthorized = $sessionResult;
         }
 
+
         // авторизован.
-        if ($userLogin) {
+        if ($userAuthorized) {
             $message = 'No Post';
             // запрос списка категорий
 
@@ -73,6 +71,7 @@ class AddArticleController extends Controller
             $data['content'] = 'content text';
 
             return $this->render('content/add-article-page.html.twig', array(
+                'user_authorized' => $userAuthorized,
                 'message' => $message, //$message,
                 'data' => $data,
             ));
@@ -81,7 +80,7 @@ class AddArticleController extends Controller
         // НЕ авторизован.
         } else {
             return $this->render('content/404-page.html.twig', array(
-                'message' => 'Не авторизирован !',
+                'message' => 'Не авторизированый пользователь или недостаточно привилегий !',
                 'data' => $data,
             ));
         }

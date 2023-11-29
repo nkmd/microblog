@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use AppBundle\Service\SearchService as SearchSrv;
+use AppBundle\Service\SessionService as SessionSrv;
 
 class SearchController extends Controller
 {
@@ -16,13 +17,22 @@ class SearchController extends Controller
      */
     public function createSearchPage()
     {
+        $userAuthorized = '';
         $message = '';
         $searchValue = '';
         $data  = '';
 
+        // Инициализация СЕССИИ
+        $session =  new SessionSrv();
+        $sessionResult = $session->startSession();
+
+        if ( isset($sessionResult['session_user_login']) && !empty($sessionResult['session_user_login']) ) {
+            $userAuthorized = $sessionResult;
+        }
+
         if (isset($_GET['q']) && !empty($_GET['q'])) {
             $searchValue = $_GET['q'];
-            $message = 'Результат поиска: ' . $searchValue;
+            $message = 'Результат поиска по фразе: " ' . $searchValue . ' " ';
 
             // валидация введёных в поиск
             $sanitizeValue = new SearchSrv();
@@ -34,15 +44,18 @@ class SearchController extends Controller
                 // Отправить в модель поиска (по заголовку)
                 $getArticles = $this->container->get('model_get_search');
                 $getArticlesResult = $getArticles->getData($sanitizeValueResult);
+
+                $message .= ' Найдено публикаций: ' . count($getArticlesResult);
                 $data = $getArticlesResult;
             }
 
         }
 
         return $this->render('content/search-page.html.twig', array(
-            'message'      => $message,
-            'search_value' =>  $searchValue,
-            'data'         => $data,
+            'user_authorized' => $userAuthorized,
+            'message'         => $message,
+            'search_value'    =>  $searchValue,
+            'data'            => $data,
         ));
     }
 
