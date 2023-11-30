@@ -52,9 +52,14 @@
                 <nav class="blog-pagination">
                     <a class="btn btn-outline-primary" href="{{ path('article', {'id': (entry.id - 1)}) }}" title="Назад"> &laquo; </a>
                     <a class="btn btn-outline-primary" href="{{ path('article', {'id': (entry.id + 1)}) }}" title="Вперёд"> &raquo; </a>
-{#                    <a class="btn btn-outline-secondary disabled" href="#">Newer</a>#}
+
+                    {% if (user_authorized is defined ) and (user_authorized|length > 1) and (user_authorized.session_user_role == 'admin') %}
+                        <a href="" type="button" class="btn  btn-success">Редактировать</a>
+                    {% endif %}
                 </nav>
                 {% endfor  %}
+
+
 
                 <hr>
             </div>

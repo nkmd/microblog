@@ -9,16 +9,15 @@
         <div class="alert alert-primary message_nk" role="alert">{{ message }}</div>
     {% endif %}
 
-<div class="album py-5 bg-light">
-    <div class="container">
-        <h2>... А сдесь можно разместить вашу рекламму :) ...</h2>
-{#        <h2>  или почитать философские наставления (рэндом). ...</h2>#}
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <h2>... А сдесь можно разместить вашу рекламму :) ...</h2>
 
+            {% if data is defined %}
+                <div>{{ data }}</div>
+            {% endif %}
 
-{#        <h3>&nbsp; - Отвращение к труду происходит не от человеческой лени, а от#}
-{#            бессмысленности копеечного труда. </h3>#}
-
+        </div>
     </div>
-</div>
 
 {% endblock %}
