@@ -13,7 +13,7 @@
     <h2>Управление пользователями</h2>
     <h3>Список Пользователей</h3>
 
-    <form method="post" action="/usersmanagement">
+
         <table class="table table-hover ">
             <thead>
             <tr>
@@ -21,6 +21,7 @@
                 <th scope="col">ID</th>
                 <th scope="col">Имя</th>
                 <th scope="col">Логин</th>
+                <th scope="col">Пароь</th>
                 <th scope="col">Права</th>
                 <th scope="col">Обнов.</th>
                 <th scope="col">Удал.</th>
@@ -29,27 +30,29 @@
             <tbody>
 
             {% for entry in list_users %}
-            <tr>
-                <th scope="row">-</th>
-                <td><input type="text" class="form-control" disabled name="usr_id" value="{{ entry.usr_id }}" style="max-width:50px;"/></td>
-                <td><input type="text" class="form-control" name="usr_name" value="{{ entry.usr_name }}" /></td>
-                <td><input type="text" class="form-control" name="usr_login" value="{{ entry.usr_login}}" /></td>
-                <td><input type="password" class="form-control" name="usr_pass" value="{{ entry.usr_pass}}" /></td>
-                <td><input type="text" class="form-control" name="usr_role" value="{{ entry.usr_role}}" />
-{#                    <select name="category">#}
-{#                        {% for entry in data.category_list %}#}
-{#                        <option value="{{ entry.role}}">{{ entry.name }}</option>#}
-{#                        {% endfor %}#}
-{#                    </select>#}
-                </td>
-                <td><input type="submit" name="update_btn" class="btn btn-primary btn-sm" value="Обнов." /> </td>
-                <td><input type="submit" name="delete_btn" class="btn btn-danger btn-sm" value="Удал." /> </td>
-            </tr>
+            <form method="post" action="/usersmanagement">
+                <tr>
+                    <th scope="row">-</th>
+                    <td><input type="text" class="form-control" name="usr_id" value="{{ entry.usr_id }}" style="max-width:50px;" readonly /></td>
+                    <td><input type="text" class="form-control" name="usr_name" value="{{ entry.usr_name }}" /></td>
+                    <td><input type="text" class="form-control" name="usr_login" value="{{ entry.usr_login}}" /></td>
+                    <td><input type="password" class="form-control" name="usr_pass" value="{{ entry.usr_pass}}" /></td>
+                    <td><input type="text" class="form-control" name="usr_role" value="{{ entry.usr_role}}" />
+    {#                    <select name="category">#}
+    {#                        {% for entry in data.category_list %}#}
+    {#                        <option value="{{ entry.role}}">{{ entry.name }}</option>#}
+    {#                        {% endfor %}#}
+    {#                    </select>#}
+                    </td>
+                    <td><input type="submit" name="update_btn" class="btn btn-primary btn-sm" value="Обнов." /> </td>
+                    <td><input type="submit" name="delete_btn" class="btn btn-danger btn-sm" value="Удал." /> </td>
+                </tr>
+            </form>
             {% endfor %}
 
             </tbody>
         </table>
-    </form>
+
 
     <hr>
     <h3>Редактирование</h3>

@@ -28,23 +28,31 @@ class UsersManagementModel
 
     }
 
-    public function getUserById($category) {
-//            try {
-//                //$sql = "SELECT * FROM category WHERE '$category' = `id` ";
-//                $sql = "SELECT C.id AS cat_id, C.name AS cat_name, C.slug AS cat_slug
-//                        FROM category AS C
-//                        WHERE '$category' = C.slug
-//                        ORDER BY C.slug";
-//                $stmt = $this->connection->prepare($sql);
-//                $stmt->execute();
-//                $result = $stmt->fetchAll();
-//            } catch (\Exception $e) {
-//                var_dump($e->getMessage());
-//                exit;
-//            }
-//            return $result;
-            return '__getUserById';
+    public function updateUser($data) {
+        $usr_id     = $data['usr_id'];
+        $usr_name   = $data['usr_name'];
+        $usr_login  = $data['usr_login'];
+        $usr_pass   = $data['usr_pass'];
+        $usr_role   = $data['$usr_role'];
+
+        try {
+            $sql = "UPDATE users SET name = :name, login = :login, pass = :pass, role = :role WHERE id = :id ";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue("id",    $usr_id);
+            $stmt->bindValue("name",  $usr_name);
+            $stmt->bindValue("login", $usr_login);
+            $stmt->bindValue("pass",  $usr_pass);
+            $stmt->bindValue("role",  $usr_role);
+            $stmt->execute();
+            //$result = $stmt->fetchAll();
+            $result = 'Ok update';
+        } catch (\Exception $e) {
+            var_dump($e->getMessage());
+            exit;
         }
+        return $result;
+
+    }
 
 
 

@@ -23,7 +23,8 @@ class UsersManagementController extends Controller
         $session = new SessionSrv();
         $sessionResult = $session->startSession();
 
-        // АВТОРИЗОВАН.
+
+        // #### ВТОРИЗОВАН. ####
         if ( isset($sessionResult['session_user_login']) && !empty($sessionResult['session_user_login']) &&
              isset($sessionResult['session_user_role']) == 'admin'){
              $userAuthorized = $sessionResult;
@@ -34,7 +35,7 @@ class UsersManagementController extends Controller
             $listUsers = $usersListResponse;
 
 
-            // POST добавление
+            /* ===  POST добавление === */
             if(isset($_POST['add_btn'])){
 
                 // Валидация введённых данных.
@@ -46,32 +47,31 @@ class UsersManagementController extends Controller
                 $message = 'Информация добавлена';
             }
 
-            // POST Обновление
+            /* ===  POST Обновление === */
             if(isset($_POST['update_btn'])){
-
                 // Валидация введённых данных.
-//                $checkData = new UsersSrv();
-//                $checkDataResponse = $checkData->checkPostData();
+                $checkData = new UsersSrv();
+                $checkDataResponse = $checkData->checkPostData();
 
-                var_dump($_POST); die();
+                if (!$checkDataResponse){
+                    $message = 'Не все данные, были заполнены, или некоректные данные';
 
-//                if (
-//                    isset($_POST['usr_id'])    && !empty($_POST['usr_id']) &&
-//                    isset($_POST['usr_name'])  && !empty($_POST['usr_name']) &&
-//                    isset($_POST['usr_login']) && !empty($_POST['usr_login']) &&
-//                    isset($_POST['usr_pass'])  && !empty($_POST['usr_pass']) &&
-//                    isset($_POST['usr_role'])  && !empty($_POST['usr_role'])
-//                ){
-//                    $data = true;
-//                }
+                } else {
+                    //запрос в модель на обновление
+                    $updateUser = $this->container->get('model_get_users');
+                    $updateUserResult =  $updateUser -> updateUser($checkDataResponse);
 
-                // запрос в модель на обновление
-
-//                $message = 'Информация обновлена';
-//                $data = $checkDataResponse;
+                    if (!$updateUserResult){
+                        $message = '__err: Информация не обновлена.';
+                    } else {
+                        $message = 'Информация обновлена.';
+                        $data = $checkDataResponse;
+                    }
+                }
             }
 
-            // POST Удаление
+
+            /* === POST Удаление === */
             if(isset($_POST['delete_btn'])){
                 // запрос в модель на удаление
                 $message = 'Пользователь Удалён';
@@ -85,7 +85,7 @@ class UsersManagementController extends Controller
             ));
 
 
-            // НЕ авторизован.
+            // #### НЕ авторизован. ####
         } else {
             return $this->render('content/404-page.html.twig', array(
                 'message' => 'Не авторизированый пользователь или недостаточно привилегий !',

@@ -16,13 +16,19 @@ class UsersManagementService
             isset($_POST['usr_role'])  && !empty($_POST['usr_role'])
         ){
 
-//        $usr_id = trim(htmlspecialchars(htmlentities(, ENT_QUOTES )));
-//        $usr_name  = trim(htmlspecialchars(htmlentities(, ENT_QUOTES )));
-//        $usr_login = trim(htmlspecialchars(htmlentities($login, ENT_QUOTES )));
-//        $usr_pass  = trim(htmlspecialchars(htmlentities($login, ENT_QUOTES )));
-//        $usr_role  = trim(htmlspecialchars(htmlentities($login, ENT_QUOTES )));
+            $usr_id = (int) abs($_POST['usr_id']);
+            $usr_name  = trim(htmlspecialchars(htmlentities($_POST['usr_name'], ENT_QUOTES )));
+            $usr_login = trim(htmlspecialchars(htmlentities($_POST['usr_login'], ENT_QUOTES )));
+            $usr_pass  = trim(htmlspecialchars(htmlentities($_POST['usr_pass'], ENT_QUOTES )));
+            $usr_role  = trim(htmlspecialchars(htmlentities($_POST['usr_role'], ENT_QUOTES )));
 
-            $response = true;
+            $response = array(
+                'usr_id'    => $usr_id,
+                'usr_name'  => $usr_name,
+                'usr_login' => $usr_login,
+                'usr_pass'  => $usr_pass,
+                '$usr_role' => $usr_role,
+            );
             return $response;
 
 
