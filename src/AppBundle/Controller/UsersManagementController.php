@@ -13,8 +13,9 @@ class UsersManagementController extends Controller
     /**
      * @Route("/usersmanagement", name="usersmanagement")
      */
-    public function createAddArticlePage()
+    public function createUserPage()
     {
+        $userAuthorized = '';
         $message = '';
         $listUsers = '';
         $data = '';
@@ -29,37 +30,49 @@ class UsersManagementController extends Controller
              isset($sessionResult['session_user_role']) == 'admin'){
              $userAuthorized = $sessionResult;
 
-            // запрос списка пользователей из модели (для табл.)
-            $usersList = $this->container->get('model_get_users');
-            $usersListResponse = $usersList->getUsersList();
-            $listUsers = $usersListResponse;
-
 
             /* ===  POST добавление === */
             if(isset($_POST['add_btn'])){
-
                 // Валидация введённых данных.
                 $checkData = new UsersSrv();
-                $checkDataResponse = $checkData-> checkPostData();
+                $checkDataResponse = $checkData->checkPostData_Insert();
 
-                // запрос в модель на обновление
+                if (!$checkDataResponse) {
+                    $message = 'Не все данные, были заполнены, или некоректные данные';
 
-                $message = 'Информация добавлена';
+                } else {
+                    // запрос в модель на добавление
+                    $addUser = $this->container->get('model_get_users');
+                    $addUserResult = $addUser->insertUser($checkDataResponse);
+
+                    if(!$addUserResult){
+                        $message = 'Пользователь с таким логином существует. Ввведите другое';
+                    } else {
+                        $data = $addUserResult;
+                        $message = 'Информация добавлена.';
+                    }
+
+                }
             }
+
 
             /* ===  POST Обновление === */
             if(isset($_POST['update_btn'])){
+
                 // Валидация введённых данных.
                 $checkData = new UsersSrv();
-                $checkDataResponse = $checkData->checkPostData();
+                $checkDataResponse = $checkData->checkPostData_Update();
 
                 if (!$checkDataResponse){
                     $message = 'Не все данные, были заполнены, или некоректные данные';
 
+                } elseif ($checkDataResponse['usr_id'] == 1 && $checkDataResponse['usr_role'] !== 'admin') {
+                    $message = 'Мастер-Админ НЕ Может понизить роль!';
+
                 } else {
                     //запрос в модель на обновление
                     $updateUser = $this->container->get('model_get_users');
-                    $updateUserResult =  $updateUser -> updateUser($checkDataResponse);
+                    $updateUserResult = $updateUser->updateUser($checkDataResponse);
 
                     if (!$updateUserResult){
                         $message = '__err: Информация не обновлена.';
@@ -73,19 +86,42 @@ class UsersManagementController extends Controller
 
             /* === POST Удаление === */
             if(isset($_POST['delete_btn'])){
-                // запрос в модель на удаление
-                $message = 'Пользователь Удалён';
+                // Валидация переданных данных (id).
+                $checkData = new UsersSrv();
+                $checkDataResponse = $checkData->checkPostData_Delete();
+
+                if (!$checkDataResponse) {
+                    $message = '__err: Не могу получить целое. Или перобразован 0';
+                } elseif ($checkDataResponse == 1) {
+                    $message = 'Мастер-Админ НЕ может быть удалён!';
+                } else {
+                    // запрос в модель на удаление
+                    $deleteUser = $this->container->get('model_get_users');
+                    $deleteUserResult = $deleteUser -> deleteUser($checkDataResponse);
+                    if (!$deleteUserResult){
+                        $message = 'Не могу удалить, не существует такой пользователь';
+                    } else {
+                        $message = 'Пользователь Удалён';
+                    }
+                }
+
             }
 
 
+            /* === запрос списка пользователей из модели (для табл. !Обязательно в конце!) === */
+            $usersList = $this->container->get('model_get_users');
+            $usersListResponse = $usersList->getUsersList();
+            $listUsers = $usersListResponse;
+
             return $this->render('content/users-management-page.html.twig', array(
-                'message'    => $message,
-                'list_users' => $listUsers,
-                'data'       => $data,
+                'user_authorized' => $userAuthorized,
+                'message'         => $message,
+                'list_users'      => $listUsers,
+                'data'            => $data,
             ));
 
 
-            // #### НЕ авторизован. ####
+            // #### НЕ АВТОРИЗОВАН. ####
         } else {
             return $this->render('content/404-page.html.twig', array(
                 'message' => 'Не авторизированый пользователь или недостаточно привилегий !',
