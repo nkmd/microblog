@@ -53,3 +53,7 @@ services:
     model_get_users:
       class: AppBundle\Model\UsersManagementModel
       arguments: [ "@database_connection" ]
+
+    model_get_categories:
+        class: AppBundle\Model\CategoriesManagementModel
+        arguments: [ "@database_connection" ]

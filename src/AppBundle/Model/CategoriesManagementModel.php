@@ -1,22 +1,22 @@
 <?php
 /**
- *  модель UsersManagement
+ *  модель CategoriesManagement
  */
 namespace AppBundle\Model;
 use Doctrine\DBAL\Connection;
 
-class UsersManagementModel
+class CategoriesManagementModel
 {
     private $connection;
     public function __construct(Connection $dbalConnection)  {
         $this->connection = $dbalConnection;
     }
 
-    public function getUsersList() {
+    public function getCategoriesList() {
         try {
-            $sql = "SELECT U.id AS usr_id, U.name AS usr_name, U.login AS usr_login, U.pass AS usr_pass, U.role AS usr_role
-                    FROM users AS U
-                    ORDER BY U.name";
+            $sql = "SELECT C.id AS cat_id, C.name AS cat_name, C.slug AS cat_slug
+                    FROM category AS C
+                    ORDER BY C.name";
             $stmt = $this->connection->prepare($sql);
             $stmt->execute();
             $result = $stmt->fetchAll();
@@ -28,14 +28,14 @@ class UsersManagementModel
 
     }
 
-    public function getUserByLogin($usr_login) {
+    public function getCategoryBySlug($cat_slug) {
         try {
-            $sql = "SELECT U.id AS usr_id, U.login AS login
-                    FROM users AS U
-                    WHERE login = :login
+            $sql = "SELECT C.id AS cat_id, C.name AS cat_name, C.slug AS cat_slug
+                    FROM category AS C
+                    WHERE slug = :slug
                    ";
             $stmt = $this->connection->prepare($sql);
-            $stmt->bindValue("login", $usr_login);
+            $stmt->bindValue("slug", $cat_slug);
             $stmt->execute();
             $result = $stmt->fetchAll();
         } catch (\Exception $e) {
@@ -46,22 +46,18 @@ class UsersManagementModel
 
     }
 
-    public function insertUser($data) {
-        $usr_name   = $data['usr_name'];
-        $usr_login  = $data['usr_login'];
-        $usr_pass   = $data['usr_pass'];
-        $usr_role   = $data['usr_role'];
+    public function insertCategory($data) {
+        $cat_name  = $data['cat_name'];
+        $cat_slug  = $data['cat_slug'];
 
-        $existLogin = $this->getUserByLogin($usr_login);
+        $existSlug = $this->getCategoryBySlug($cat_slug);
 
-        if(!$existLogin){
+        if(!$existSlug){
             try {
-                $sql = "INSERT INTO users(name, login, pass, role) VALUES(:name, :login, :pass, :role)";
+                $sql = "INSERT INTO category(name, slug) VALUES(:name, :slug)";
                 $stmt = $this->connection->prepare($sql);
-                $stmt->bindValue("name",  $usr_name);
-                $stmt->bindValue("login", $usr_login);
-                $stmt->bindValue("pass",  $usr_pass);
-                $stmt->bindValue("role",  $usr_role);
+                $stmt->bindValue("name", $cat_name);
+                $stmt->bindValue("slug", $cat_slug);
                 $stmt->execute();
                 //$result = $stmt->fetchAll();
                 $result = 'Ok insert';

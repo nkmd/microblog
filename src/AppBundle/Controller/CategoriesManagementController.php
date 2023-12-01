@@ -6,18 +6,18 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use AppBundle\Service\SessionService as SessionSrv;
-use AppBundle\Service\UsersManagementService as UsersSrv;
+use AppBundle\Service\CategoriesManagementService as CategoriesSrv;
 
-class UsersManagementController extends Controller
+class CategoriesManagementController extends Controller
 {
     /**
-     * @Route("/usersmanagement", name="usersmanagement")
+     * @Route("/categoriesmanagement", name="categoriesmanagement")
      */
     public function createUserPage()
     {
         $userAuthorized = '';
         $message = '';
-        $listUsers = '';
+        $listCategories = '';
         $data = '';
 
         // Инициализация СЕССИИ
@@ -35,7 +35,7 @@ class UsersManagementController extends Controller
             /* ===  POST добавление === */
             if(isset($_POST['add_btn'])){
                 // Валидация введённых данных.
-                $checkData = new UsersSrv();
+                $checkData = new CategoriesSrv();
                 $checkDataResponse = $checkData->checkPostData_Insert();
 
                 if (!$checkDataResponse) {
@@ -43,13 +43,13 @@ class UsersManagementController extends Controller
 
                 } else {
                     // запрос в модель на добавление
-                    $addUser = $this->container->get('model_get_users');
-                    $addUserResult = $addUser->insertUser($checkDataResponse);
+                    $addCategory = $this->container->get('model_get_categories');
+                    $addCategoryResult = $addCategory->insertCategory($checkDataResponse);
 
-                    if(!$addUserResult){
+                    if(!$addCategoryResult){
                         $message = 'Данный логин уже существует. Ввведите другй логин.';
                     } else {
-                        $data = $addUserResult;
+                        $data = $addCategoryResult;
                         $message = 'Информация добавлена.';
                     }
 
@@ -109,15 +109,15 @@ class UsersManagementController extends Controller
             }
 
 
-            /* === запрос списка пользователей из модели (для табл. !Обязательно в конце!) === */
-            $usersList = $this->container->get('model_get_users');
-            $usersListResponse = $usersList->getUsersList();
-            $listUsers = $usersListResponse;
+            /* === запрос списка категорий из модели (для табл. !Обязательно в конце!) === */
+            $categoriesList = $this->container->get('model_get_categories');
+            $categoriesListResponse = $categoriesList->getCategoriesList();
+            $listCategories = $categoriesListResponse;
 
-            return $this->render('content/users-management-page.html.twig', array(
+            return $this->render('content/categories-management-page.html.twig', array(
                 'user_authorized' => $userAuthorized,
                 'message'         => $message,
-                'list_users'      => $listUsers,
+                'list_categories' => $listCategories,
                 'data'            => $data,
             ));
 
