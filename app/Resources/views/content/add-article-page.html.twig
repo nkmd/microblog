@@ -7,58 +7,62 @@
 {% block body %}
 
     {% if message %}
-        <div class="alert alert-primary" role="alert">{{ message }}</div>
+        <<div class="alert alert-primary message_nk" role="alert">{{ message }}</div>
     {% endif %}
 
+    <div class="container">
+        <h1>Добавление новой статьи</h1>
+        <hr/>
 
+        <form action="/addarticle" method="post">
 
-    <div>
-        <form method="post" action="/addarticle">
-            <div>
-                <select name="category">
-                    {% for entry in data.category_list %}
-                    <option value="{{ entry.id }}">{{ entry.name }}</option>
-                    {% endfor %}#}
-                </select>
+            <div class="form-row">
+                <!-- col Left -->
+                <div class="form-group col-md-8">
+
+                    <label for="title" class="mr_top20_nk">Заголовок:</label>
+                    <input type="text" class="form-control" id="title" placeholder="" name="title">
+
+                    <label for="content" class="mr_top20_nk">Контент:</label>
+                    <textarea class="form-control" id="content" style="min-height: 250px" name="content"> </textarea>
+
+                </div>
+
+                <!-- col Right -->
+                <div class="form-group col-md-4">
+                    <label for="id" class="mr_top20_nk">ID:</label>
+                    <input type="text" class="form-control" id="id" placeholder="" disabled>
+
+                    <label for="date" class="mr_top20_nk">Дата:</label>
+                    <input type="date" class="form-control" id="date" placeholder="" name="date">
+
+                    <label class="mr-sm-2 mr_top20_nk" for="category">Категория:</label>
+                    <select class="custom-select mr-sm-2" id="category" name="category_id">
+                        {% for entry in categories_list %}
+                        <option value="{{ entry.cat_id }}">{{ entry.cat_name }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <label class="mr-sm-2 mr_top20_nk" for="status">Статус:</label>
+                    <select class="custom-select mr-sm-2" id="status" name="status">
+                        <option value="published">Published</option>
+                        <option value="draft" selected>Draft</option>
+                        <option value="draft">Deleted</option>
+                    </select>
+
+                    <label class="mr-sm-2 mr_top20_nk" for="access">Доступ:</label>
+                    <select class="custom-select mr-sm-2" id="access" name="access">
+                        <option value="all">ALL</option>
+                        <option value="vip">VIP</option>
+                    </select>
+
+                </div>
             </div>
 
-            <div>
-                <select name="status">
-                    <option value="published">Published article</option>
-                    <option value="draft">Draft article</option>
-                    <option value="deleted">Deleted article</option>
-                </select>
-            </div>
-            <div>
-                <select name="access">
-                    <option value="all">All Can Read</option>
-                    <option value="vip">VIP Can Read</option>
-                </select>
-            </div>
-
-            <div class="">
-                <input class="" type="date" name="date" value="" placeholder="" />
-            </div>
-
-            <div class="">
-                <input class="" type="text" name="title" value="" placeholder="Title" />
-            </div>
-            <div class="">
-                <textarea class="" type="" name="content" value="" placeholder="Content"></textarea>
-            </div>
-            <div class="">
-                <input class="" type="submit" value="_ADD_" name="add_article_btn"/>
-            </div>
+            <input type="submit" class="btn btn-primary" name="add_btn" value="Добавить" />
+            <input type="reset" class="btn btn-outline-primary" value="Очистить" />
         </form>
+
     </div>
-
-
-
-    <div> <div>{{ data.content }}</div></div>
-
-
-
-
-    <div>{{ dump (data) }}</div>
 
 {% endblock %}

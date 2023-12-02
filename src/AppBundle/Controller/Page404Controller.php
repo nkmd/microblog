@@ -4,6 +4,7 @@
  */
 namespace AppBundle\Controller;
 
+use AppBundle\Service\SessionService as SessionSrv;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -15,9 +16,9 @@ class Page404Controller extends Controller
 
     public function create404Page()
     {
-
         $message = '404 page';
         $data = '';
+
 
         return $this->render('content/404-page.html.twig', array(
             'message' => $message,

@@ -32,9 +32,9 @@ class CategoriesManagementService
 
     public function checkPostData_Delete() {
         $response = false;
-        if( isset($_POST['usr_id']) && !empty($_POST['usr_id'])){
-            $usr_id = (int) abs($_POST['usr_id']);
-            $response = $usr_id;
+        if( isset($_POST['cat_id']) && !empty($_POST['cat_id'])){
+            $cat_id = (int) abs($_POST['cat_id']);
+            $response = $cat_id;
             return $response;
         } else {
             return $response;
@@ -46,29 +46,26 @@ class CategoriesManagementService
         $response = false;
 
         if (
-            isset($_POST['usr_id'])    && !empty($_POST['usr_id']) &&
-            isset($_POST['usr_name'])  && !empty($_POST['usr_name']) &&
-            isset($_POST['usr_login']) && !empty($_POST['usr_login']) &&
-            isset($_POST['usr_login_current']) && !empty($_POST['usr_login_current']) &&
-            isset($_POST['usr_pass'])  && !empty($_POST['usr_pass']) &&
-            isset($_POST['usr_role'])  && !empty($_POST['usr_role'])
+            isset($_POST['cat_id'])   && !empty($_POST['cat_id']) &&
+            isset($_POST['cat_name']) && !empty($_POST['cat_name']) &&
+            isset($_POST['cat_slug']) && !empty($_POST['cat_slug']) &&
+            isset($_POST['cat_slug_current']) && !empty($_POST['cat_slug_current'])
+
         ){
-            $usr_id = (int) abs($_POST['usr_id']);
-            $usr_name  = trim(htmlspecialchars(htmlentities($_POST['usr_name'], ENT_QUOTES )));
-            $usr_login_r = str_replace(" ", '', $_POST['usr_login']);
-            $usr_login = trim(htmlspecialchars(htmlentities($usr_login_r, ENT_QUOTES )));
-            $usr_login_current_r = str_replace(" ", '', $_POST['usr_login_current']);
-            $usr_login_current = trim(htmlspecialchars(htmlentities($usr_login_current_r, ENT_QUOTES )));
-            $usr_pass  = trim(htmlspecialchars(htmlentities($_POST['usr_pass'], ENT_QUOTES )));
-            $usr_role  = trim(htmlspecialchars(htmlentities($_POST['usr_role'], ENT_QUOTES )));
+            $cat_id = (int) abs($_POST['cat_id']);
+            $cat_name = trim(htmlspecialchars(htmlentities($_POST['cat_name'], ENT_QUOTES )));
+            $cat_slug_r = str_replace(" ", '', $_POST['cat_slug']);
+            $cat_slug = trim(htmlspecialchars(htmlentities($cat_slug_r, ENT_QUOTES )));
+            $cat_slug_current_r = str_replace(" ", '', $_POST['cat_slug_current']);
+            $cat_slug_current = trim(htmlspecialchars(htmlentities($cat_slug_current_r, ENT_QUOTES )));
+
 
             $response = array(
-                'usr_id'            => $usr_id,
-                'usr_name'          => $usr_name,
-                'usr_login'         => $usr_login,
-                'usr_login_current' => $usr_login_current,
-                'usr_pass'          => $usr_pass,
-                'usr_role'          => $usr_role,
+                'cat_id'           => $cat_id,
+                'cat_name'         => $cat_name,
+                'cat_slug'         => $cat_slug,
+                'cat_slug_current' => $cat_slug_current,
+
             );
             return $response;
 

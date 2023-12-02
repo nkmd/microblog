@@ -47,7 +47,7 @@ class CategoriesManagementController extends Controller
                     $addCategoryResult = $addCategory->insertCategory($checkDataResponse);
 
                     if(!$addCategoryResult){
-                        $message = 'Данный логин уже существует. Ввведите другй логин.';
+                        $message = 'Данный SLUG уже существует. Ввведите другй слаг.';
                     } else {
                         $data = $addCategoryResult;
                         $message = 'Информация добавлена.';
@@ -61,22 +61,22 @@ class CategoriesManagementController extends Controller
             if(isset($_POST['update_btn'])){
 
                 // Валидация введённых данных.
-                $checkData = new UsersSrv();
+                $checkData = new CategoriesSrv();
                 $checkDataResponse = $checkData->checkPostData_Update();
 
                 if (!$checkDataResponse){
                     $message = 'Не все данные, были заполнены, или некоректные данные';
 
-                } elseif ($checkDataResponse['usr_id'] == 1 && $checkDataResponse['usr_role'] !== 'admin') {
-                    $message = 'Мастер-Админ НЕ Может понизить роль!';
+                } elseif ($checkDataResponse['cat_id'] == 1 && $checkDataResponse['cat_slug'] !== 'uncategorized') {
+                    $message = 'Мастер Категория НЕ Может быть переименована, удалена!';
 
                 } else {
                     //запрос в модель на обновление
-                    $updateUser = $this->container->get('model_get_users');
-                    $updateUserResult = $updateUser->updateUser($checkDataResponse);
+                    $updateCategory = $this->container->get('model_get_categories');
+                    $updateCategoryResult = $updateCategory->updateCategory($checkDataResponse);
 
-                    if (!$updateUserResult){
-                        $message = 'Данный ЛОГИН занят. Информация не обновлена.';
+                    if (!$updateCategoryResult){
+                        $message = 'Данный СЛАГ занят. Информация не обновлена.';
                     } else {
                         $message = 'Информация обновлена.';
                         $data = $checkDataResponse;
@@ -88,21 +88,21 @@ class CategoriesManagementController extends Controller
             /* === POST Удаление === */
             if(isset($_POST['delete_btn'])){
                 // Валидация переданных данных (id).
-                $checkData = new UsersSrv();
+                $checkData = new CategoriesSrv();
                 $checkDataResponse = $checkData->checkPostData_Delete();
 
                 if (!$checkDataResponse) {
                     $message = '__err: Не могу получить целое. Или перобразован 0';
                 } elseif ($checkDataResponse == 1) {
-                    $message = 'Мастер-Админ НЕ может быть удалён!';
+                    $message = 'Мастер-Категория НЕ может быть удалена!';
                 } else {
                     // запрос в модель на удаление
-                    $deleteUser = $this->container->get('model_get_users');
-                    $deleteUserResult = $deleteUser -> deleteUser($checkDataResponse);
+                    $deleteUser = $this->container->get('model_get_categories');
+                    $deleteUserResult = $deleteUser -> deleteCategory($checkDataResponse);
                     if (!$deleteUserResult){
-                        $message = 'Не могу удалить, не существует такой пользователь';
+                        $message = 'Не могу удалить, не существует такой категории';
                     } else {
-                        $message = 'Пользователь Удалён';
+                        $message = 'Категория Удалена.';
                     }
                 }
 

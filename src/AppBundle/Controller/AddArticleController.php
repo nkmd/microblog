@@ -21,69 +21,69 @@ class AddArticleController extends Controller
     public function createAddArticlePage()
     {
         $userAuthorized = '';
+        $listCategories ='';
         $message = '';
-        $data  = array();
+        $data = '';
 
         // Инициализация СЕССИИ
-        $session =  new SessionSrv();
+        $session = new SessionSrv();
         $sessionResult = $session->startSession();
 
-        if ( isset($sessionResult['session_user_login']) && !empty($sessionResult['session_user_login']) ) {
+        // #### ВТОРИЗОВАН. ####
+        if ( isset($sessionResult['session_user_login']) && !empty($sessionResult['session_user_login']) &&
+            isset($sessionResult['session_user_role']) && $sessionResult['session_user_role'] == 'admin'){
             $userAuthorized = $sessionResult;
-        }
 
+            /* === запрос списка категорий из модели === */
+            $categoriesList = $this->container->get('model_get_categories');
+            $categoriesListResponse = $categoriesList->getCategoriesList();
+            $listCategories = $categoriesListResponse;
 
-        // авторизован.
-        if ($userAuthorized) {
-            $message = 'No Post';
-            // запрос списка категорий
-
-            $category = $this->container->get('model_get_category');
-            $categoryList = $category->getCategoryList();
-            $data['category_list'] = $categoryList;
-
-            // авторизован и есть данные POST.
-            if (isset($_POST['add_article_btn'])) {
-                $message = 'Post EST';
-
-                // праверка на валидность
+            /* ===  POST добавление === */
+            if(isset($_POST['add_btn'])){
+                // Валидация введённых данных.
                 $checkData = new AddArticleSrv();
-                $checkResponse = $checkData->checkData();
-                if (!$checkResponse) {
-                    $message = 'Что-то незаполнено';
-                    var_dump($checkResponse);
-                    //die();
+                $checkDataResponse = $checkData->checkData_Insert();
+
+                if (!$checkDataResponse) {
+                    $message = 'Не все данные, были заполнены, или некоректные данные';
 
                 } else {
+                    // запрос в модель на добавление
+                    $addArticle = $this->container->get('model_add_article');
+                    $addArticleResult = $addArticle->insertArticle($checkDataResponse);
 
-                    // отправка в модель
-                    $articleModel = $this->container->get('model_add_article');
-                    $addArticle = $articleModel->addArticle($checkResponse);
+                    if(!$addArticleResult){
+                        $message = '__err: немогу добавить статью';
+                    } else {
+                        $data = $addArticleResult;
+                        $message = 'Информация добавлена.';
+                    }
 
-                    var_dump($addArticle);
-                    //$data['content_article'] = $checkResponse;
                 }
             }
 
 
 
 
-            $data['content'] = 'content text';
+
 
             return $this->render('content/add-article-page.html.twig', array(
                 'user_authorized' => $userAuthorized,
-                'message' => $message, //$message,
-                'data' => $data,
+                'message'         => $message,
+                'categories_list' => $listCategories,
+                'data'            => $data,
             ));
 
 
-        // НЕ авторизован.
+            // #### НЕ АВТОРИЗОВАН. ####
         } else {
             return $this->render('content/404-page.html.twig', array(
                 'message' => 'Не авторизированый пользователь или недостаточно привилегий !',
-                'data' => $data,
             ));
         }
 
-    }
+
+
+    } /*fn*/
 }

@@ -61,7 +61,7 @@
                                         <a href="{{ path('article', {'id': entry.id}) }}" type="button" class="btn btn-sm btn-outline-secondary">Читать</a>
 
                                         {% if (user_authorized is defined ) and (user_authorized|length > 1) and (user_authorized.session_user_role == 'admin') %}
-                                            <a href="" type="button" class="btn btn-sm btn-outline-secondary">Ред.</a>
+                                            <a href="{{ path('editarticle', {'id': entry.id}) }}" type="button" class="btn btn-sm btn-outline-secondary">Ред.</a>
                                         {% endif %}
                                     </div>
                                     <small class="text-muted">{{ entry.date }}</small>

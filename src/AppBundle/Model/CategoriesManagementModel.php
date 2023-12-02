@@ -73,26 +73,22 @@ class CategoriesManagementModel
 
     }
 
-    public function updateUser($data) {
-        $usr_id             = $data['usr_id'];
-        $usr_name           = $data['usr_name'];
-        $usr_login          = $data['usr_login'];
-        $usr_login_current  = $data['usr_login_current'];
-        $usr_pass           = $data['usr_pass'];
-        $usr_role           = $data['usr_role'];
+    public function updateCategory($data) {
+        $cat_id            = $data['cat_id'];
+        $cat_name          = $data['cat_name'];
+        $cat_slug          = $data['cat_slug'];
+        $cat_slug_current  = $data['cat_slug_current'];
 
         // если не меняет логин, либо логин не "занят":
-        $existLogin = $this->getUserByLogin($usr_login);
+        $existSlug = $this->getCategoryBySlug($cat_slug);
 
-        if ($usr_login === $usr_login_current || !$existLogin) {
+        if ($cat_slug === $cat_slug_current || !$existSlug) {
             try {
-                $sql = "UPDATE users SET name = :name, login = :login, pass = :pass, role = :role WHERE id = :id ";
+                $sql = "UPDATE category SET name = :name, slug = :slug WHERE id = :id ";
                 $stmt = $this->connection->prepare($sql);
-                $stmt->bindValue("id",    $usr_id);
-                $stmt->bindValue("name",  $usr_name);
-                $stmt->bindValue("login", $usr_login);
-                $stmt->bindValue("pass",  $usr_pass);
-                $stmt->bindValue("role",  $usr_role);
+                $stmt->bindValue("id",   $cat_id);
+                $stmt->bindValue("name", $cat_name);
+                $stmt->bindValue("slug", $cat_slug);
                 $stmt->execute();
                 //$result = $stmt->fetchAll();
                return true;
@@ -106,11 +102,11 @@ class CategoriesManagementModel
         }
     }
 
-    public function deleteUser($usr_id) {
+    public function deleteCategory($cat_id) {
         try {
-            $sql = "DELETE FROM users WHERE id = :id ";
+            $sql = "DELETE FROM category WHERE id = :id ";
             $stmt = $this->connection->prepare($sql);
-            $stmt->bindValue("id", $usr_id);
+            $stmt->bindValue("id", $cat_id);
             $stmt->execute();
             //$result = $stmt->fetchAll();
             $result = 'Ok delete';

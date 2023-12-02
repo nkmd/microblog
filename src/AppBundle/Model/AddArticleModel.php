@@ -12,32 +12,25 @@ class AddArticleModel
         $this->connection = $dbalConnection;
     }
 
-    public function addArticle($addArticle) {
-//        $session_id = $addArticle['session_id'];
-//        $category  = $addArticle['category'];
-//        $status    = $addArticle['status'];
-//        $access    = $addArticle['access'];
-//        $date      = $addArticle['date'];
-//        $title     = $addArticle['title'];
-//        $content   = $addArticle['content'];
-
-        //return $addArticle;
-
+    public function insertArticle($addData) {
+        $title        = $addData['title'];
+        $content      = $addData['content'];
+        $date         = $addData['date'];
+        $author_id    = $addData['author_id'];
+        $category_id  = $addData['category_id'];
+        $status       = $addData['status'];
+        $access       = $addData['access'];
         try {
-            //$sql = "INSERT INTO articles(title, content) VALUES(title = :title, content = :content)";
-            //$sql = "INSERT INTO articles(title, content, date, author_id, status, access) VALUES('aaa4', 'aaa aaa aaa', '2023-12-01', 1, 'test', 'guest')";
-            $sql = "INSERT INTO articles(title, content, date, author_id, status, access) VALUES(:title, :content, :date, :author_id, :status, :access)";
+            $sql = "INSERT INTO articles(title, content, date, author_id, category_id, status, access) VALUES(:title, :content, :date, :author_id, :category_id, :status, :access)";
             $stmt = $this->connection->prepare($sql);
-            $stmt->bindValue('title',   $addArticle['title']);
-            $stmt->bindValue('content', $addArticle['content']);
-            $stmt->bindValue('date', $addArticle['date']);
-            $stmt->bindValue('author_id', $addArticle['session_id']);
-            $stmt->bindValue('status', $addArticle['status']);
-            $stmt->bindValue('access', $addArticle['access']);
+            $stmt->bindValue('title', $title);
+            $stmt->bindValue('content', $content);
+            $stmt->bindValue('date', $date);
+            $stmt->bindValue('author_id', $author_id);
+            $stmt->bindValue('category_id', $category_id);
+            $stmt->bindValue('status', $status);
+            $stmt->bindValue('access', $access);
             $stmt->execute();
-//            var_dump ($stmt);die();
-
-//            $result = $stmt->fetchAll();
             $result = 'Ok insert';
         } catch (\Exception $e) {
             var_dump($e->getMessage());

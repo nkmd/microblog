@@ -35,24 +35,28 @@ services:
         arguments: [ "@service_container" ]
 
     model_get_user:
-            class: AppBundle\Model\LoginModel
-            arguments: [ "@database_connection" ]
+        class: AppBundle\Model\LoginModel
+        arguments: [ "@database_connection" ]
 
     model_get_article:
-            class: AppBundle\Model\ArticleModel
-            arguments: [ "@database_connection" ]
+        class: AppBundle\Model\ArticleModel
+        arguments: [ "@database_connection" ]
 
     model_add_article:
-            class: AppBundle\Model\AddArticleModel
-            arguments: [ "@database_connection" ]
+        class: AppBundle\Model\AddArticleModel
+        arguments: [ "@database_connection" ]
+
+    model_edit_article:
+        class: AppBundle\Model\EditArticleModel
+        arguments: [ "@database_connection" ]
 
     model_get_category:
-              class: AppBundle\Model\CategoryModel
-              arguments: [ "@database_connection" ]
+        class: AppBundle\Model\CategoryModel
+        arguments: [ "@database_connection" ]
 
     model_get_users:
-      class: AppBundle\Model\UsersManagementModel
-      arguments: [ "@database_connection" ]
+        class: AppBundle\Model\UsersManagementModel
+        arguments: [ "@database_connection" ]
 
     model_get_categories:
         class: AppBundle\Model\CategoriesManagementModel

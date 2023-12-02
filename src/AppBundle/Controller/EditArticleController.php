@@ -15,7 +15,8 @@ class EditArticleController extends Controller
     /**
      * @Route("/editarticle", name="editarticle_list")
      */
-    public function redirectToBlogList(){
+    public function redirectToBlogList()
+    {
         header("Location: /404");
         exit;
     }
@@ -24,48 +25,74 @@ class EditArticleController extends Controller
      * @Route("/editarticle/{id}", name="editarticle", methods={"GET"})
      */
 
-    public function createEditPage($id)
+    public function editArticlePage($id)
     {
         $articleId = $id;
         $userAuthorized = '';
+        $listCategories = '';
         $message = '';
-        $data  = '';
+        $data = '';
 
         // Инициализация СЕССИИ
-        $session =  new SessionSrv();
+        $session = new SessionSrv();
         $sessionResult = $session->startSession();
 
-        if ( isset($sessionResult['session_user_login']) && !empty($sessionResult['session_user_login']) ) {
+        // #### ВТОРИЗОВАН. ####
+        if (isset($sessionResult['session_user_login']) && !empty($sessionResult['session_user_login']) &&
+            isset($sessionResult['session_user_role']) && $sessionResult['session_user_role'] == 'admin') {
             $userAuthorized = $sessionResult;
-        }
 
-        // Статья по ID
-        if(isset($articleId)) {
-            // валидация ID стати
-            $sanitizeArticle = new ArticleSrv();
-            $sanitizeArticleResult = $sanitizeArticle->checkData($articleId);
 
-            // отправка в модель блога (статьи,публикации)
-            $getArticle = $this->container->get('model_get_article');
-            $getArticleResult =  $getArticle -> getArticle($sanitizeArticleResult);
 
-            if ( $getArticleResult ) {
-                $data = $getArticleResult;
-            } else {
-                $message = 'Публикация не найдена';
+            /* ===  POST добавление === */
+            if (isset($_POST['add_btn'])) {
+                // Валидация введённых данных.
+                $checkData = new AddArticleSrv();
+                $checkDataResponse = $checkData->checkData_Insert();
+
+                if (!$checkDataResponse) {
+                    $message = 'Не все данные, были заполнены, или некоректные данные';
+
+                } else {
+                    // запрос в модель на добавление
+                    $addArticle = $this->container->get('model_add_article');
+                    $addArticleResult = $addArticle->insertArticle($checkDataResponse);
+
+                    if (!$addArticleResult) {
+                        $message = '__err: немогу добавить статью';
+                    } else {
+                        $data = $addArticleResult;
+                        $message = 'Информация добавлена.';
+                    }
+
+                }
             }
 
+            /* === запрос списка контента из модели === */
+            $getArticleContent = $this->container->get('model_edit_article');
+            $getArticleResponse = $getArticleContent ->getArticleData($articleId);
+            $data = $getArticleResponse;
+
+            /* === запрос списка категорий из модели === */
+            $categoriesList = $this->container->get('model_get_categories');
+            $categoriesListResponse = $categoriesList->getCategoriesList();
+            $listCategories = $categoriesListResponse;
+
+            return $this->render('content/edit-article-page.html.twig', array(
+                'user_authorized' => $userAuthorized,
+                'message' => $message,
+                'categories_list' => $listCategories,
+                'data' => $data,
+            ));
+
+
+            // #### НЕ АВТОРИЗОВАН. ####
         } else {
-            $message = 'Публикация не существует';
+            return $this->render('content/404-page.html.twig', array(
+                'message' => 'Не авторизированый пользователь или недостаточно привилегий !',
+            ));
         }
 
-        return $this->render('content/article-page.html.twig', array(
-            'user_authorized' => $userAuthorized,
-            'message'         => $message,
-            'data'            => $data,
-        ));
+
     }
-
-
-
 }

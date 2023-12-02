@@ -12,6 +12,24 @@ class EditArticleModel
         $this->connection = $dbalConnection;
     }
 
+
+    public function getArticleData($articleId) {
+        try {
+            $sql = "SELECT A.id, A.title, A.content, A.date, A.author_id, A.category_id, A.status, A.access          
+                FROM articles AS A
+                WHERE '$articleId' = A.id
+                ";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+        } catch (\Exception $e) {
+            var_dump($e->getMessage());
+            exit;
+        }
+        return $result;
+    }
+
+
     public function editArticle($addArticle) {
 //        $session_id = $addArticle['session_id'];
 //        $category  = $addArticle['category'];
