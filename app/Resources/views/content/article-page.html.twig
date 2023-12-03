@@ -12,21 +12,6 @@
         <div class="alert alert-primary message_nk" role="alert">{{ message }}</div>
     {% endif %}
 
-{#            {{ dump(data) }}#}
-
-
-{#    "id" => "13"#}
-{#    "title" => "13 Статья"#}
-{#    "content" => "Контент 13 Статьи"#}
-{#    "date" => "2023-11-22"#}
-{#    "author_id" => "4"#}
-{#    "status" => "published"#}
-{#    "access" => "all"#}
-{#    "category_id" => "2"#}
-{#    "cat_id" => "2"#}
-{#    "cat_name" => "2 FreeBSD"#}
-{#    "cat_slug" => "freebsd"#}
-
     <div class="container">
         <div class="row">
             <div class="col-md-8 blog-main">
@@ -54,7 +39,7 @@
                     <a class="btn btn-outline-primary" href="{{ path('article', {'id': (entry.id + 1)}) }}" title="Вперёд"> &raquo; </a>
 
                     {% if (user_authorized is defined ) and (user_authorized|length > 1) and (user_authorized.session_user_role == 'admin') %}
-                        <a href="" type="button" class="btn  btn-success">Редактировать</a>
+                        <a href="{{ path('editarticle', {'id': entry.id}) }}" type="button" class="btn  btn-success">Редактировать</a>
                     {% endif %}
                 </nav>
                 {% endfor  %}

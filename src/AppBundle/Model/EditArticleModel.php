@@ -13,7 +13,7 @@ class EditArticleModel
     }
 
 
-    public function getArticleData($articleId) {
+    public function getArticleContent($articleId) {
         try {
             $sql = "SELECT A.id, A.title, A.content, A.date, A.author_id, A.category_id, A.status, A.access          
                 FROM articles AS A

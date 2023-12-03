@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 use AppBundle\Service\SessionService as SessionSrv;
-use AppBundle\Service\ArticleService as ArticleSrv;
+use AppBundle\Service\EditArticleService as EditArticleSrv;
 
 class EditArticleController extends Controller
 {
@@ -22,7 +22,8 @@ class EditArticleController extends Controller
     }
 
     /**
-     * @Route("/editarticle/{id}", name="editarticle", methods={"GET"})
+     * @Route("/editarticle/{id}", name="editarticle")
+     * //, methods={"GET"}
      */
 
     public function editArticlePage($id)
@@ -37,24 +38,28 @@ class EditArticleController extends Controller
         $session = new SessionSrv();
         $sessionResult = $session->startSession();
 
+
         // #### ВТОРИЗОВАН. ####
         if (isset($sessionResult['session_user_login']) && !empty($sessionResult['session_user_login']) &&
             isset($sessionResult['session_user_role']) && $sessionResult['session_user_role'] == 'admin') {
             $userAuthorized = $sessionResult;
 
+            /* ===  POST Редактирование === */
+            if (isset($_POST['edit_btn'])) {
 
-
-            /* ===  POST добавление === */
-            if (isset($_POST['add_btn'])) {
                 // Валидация введённых данных.
-                $checkData = new AddArticleSrv();
-                $checkDataResponse = $checkData->checkData_Insert();
+                $checkData = new EditArticleSrv();
+                $checkDataResponse = $checkData->checkData_Update($articleId);
+
 
                 if (!$checkDataResponse) {
                     $message = 'Не все данные, были заполнены, или некоректные данные';
-
+                    //echo 'no ok';
+                    var_dump($checkDataResponse);
+                    die();
                 } else {
                     // запрос в модель на добавление
+                    echo ' ok'; die();
                     $addArticle = $this->container->get('model_add_article');
                     $addArticleResult = $addArticle->insertArticle($checkDataResponse);
 
@@ -68,9 +73,9 @@ class EditArticleController extends Controller
                 }
             }
 
-            /* === запрос списка контента из модели === */
+            /* === запрос контента статьи из модели === */
             $getArticleContent = $this->container->get('model_edit_article');
-            $getArticleResponse = $getArticleContent ->getArticleData($articleId);
+            $getArticleResponse = $getArticleContent->getArticleContent($articleId);
             $data = $getArticleResponse;
 
             /* === запрос списка категорий из модели === */

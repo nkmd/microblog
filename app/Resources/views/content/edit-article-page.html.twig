@@ -11,59 +11,73 @@
     {% endif %}
 
     <div class="container">
-        <h1>Добавление новой статьи</h1>
+        <h1>Редактировать статью</h1>
         <hr/>
-{{ dump(data) }}
-        <form action="/addarticle" method="post">
+
+
+        {% for entry in data %}
+            <form action="{{ path('editarticle', {'id': entry.id}) }}" method="post">
+
 
             <div class="form-row">
                 <!-- col Left -->
                 <div class="form-group col-md-8">
 
                     <label for="title" class="mr_top20_nk">Заголовок:</label>
-                    <input type="text" class="form-control" id="title" placeholder="" name="title">
+                    <input type="text" class="form-control" id="title" placeholder="" name="title" value="{{entry.title}}">
 
                     <label for="content" class="mr_top20_nk">Контент:</label>
-                    <textarea class="form-control" id="content" style="min-height: 250px" name="content"> </textarea>
+                    <textarea class="form-control" id="content" style="min-height: 250px" name="content"> {{entry.content}}</textarea>
 
                 </div>
 
                 <!-- col Right -->
                 <div class="form-group col-md-4">
-                    <label for="id" class="mr_top20_nk">ID:</label>
-                    <input type="text" class="form-control" id="id" placeholder="" disabled>
+                    <label for="id" class="mr_top20_nk">ID</label>
+                    <input type="text" class="form-control" id="id"  name="id" value="{{entry.id}}" readonly>
+
+                    <label for="author" class="mr_top20_nk">Автор:</label>
+                    <input type="text" class="form-control" id="author" name="author_id" value="{{entry.author_id}}" readonly>
 
                     <label for="date" class="mr_top20_nk">Дата:</label>
-                    <input type="date" class="form-control" id="date" placeholder="" name="date">
+                    <input type="date" class="form-control" id="date" placeholder="" name="date" value="{{entry.date}}">
 
                     <label class="mr-sm-2 mr_top20_nk" for="category">Категория:</label>
                     <select class="custom-select mr-sm-2" id="category" name="category_id">
-                        {% for entry in categories_list %}
-                        <option value="{{ entry.cat_id }}">{{ entry.cat_name }}</option>
+                        {% for cat in categories_list %}
+                            {% if cat.cat_id == entry.category_id %}
+                                <option value="{{ cat.cat_id }}" selected>{{ cat.cat_name }}</option>
+                            {% else %}
+                                <option value="{{ cat.cat_id }}">{{ cat.cat_name }}</option>
+                            {% endif %}
                         {% endfor %}
                     </select>
 
                     <label class="mr-sm-2 mr_top20_nk" for="status">Статус:</label>
                     <select class="custom-select mr-sm-2" id="status" name="status">
-                        <option value="published">Published</option>
-                        <option value="draft">Draft</option>
-                        <option value="draft">Deleted</option>
+                        <option value="published" {% if entry.status == 'published' %} selected {% endif %} >Опубликована</option>
+                        <option value="draft"     {% if entry.status == 'draft' %} selected {% endif %} >Черновик</option>
+                        <option value="deleted"   {% if entry.status == 'deleted' %} selected {% endif %} >Удалён</option>
                     </select>
 
                     <label class="mr-sm-2 mr_top20_nk" for="access">Доступ:</label>
                     <select class="custom-select mr-sm-2" id="access" name="access">
-                        <option value="all">ALL</option>
-                        <option value="vip">VIP</option>
+                        <option value="all" {% if entry.access == 'all' %} selected {% endif %}>ALL</option>
+                        <option value="vip" {% if entry.access == 'vip' %} selected {% endif %}>VIP</option>
                     </select>
 
                 </div>
             </div>
 
-            <input type="submit" class="btn btn-primary" name="add_btn" value="Добавить" />
+            <input type="submit" class="btn btn-primary" name="edit_btn" value="Редактировать" />
             <input type="reset" class="btn btn-outline-primary" value="Очистить" />
-            <input type="reset" class="btn btn-outline-danger" value="Удалить оконьчательно." />
+            <input type="submit" class="btn btn-outline-danger" name="del_btn" value="Удалить оконьчательно." />
         </form>
+        {% endfor %}
 
     </div>
+
+
+    {{ dump(data) }}
 
 {% endblock %}

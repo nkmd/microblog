@@ -7,7 +7,7 @@
 {% block body %}
 
     {% if message %}
-        <<div class="alert alert-primary message_nk" role="alert">{{ message }}</div>
+        <div class="alert alert-primary message_nk" role="alert">{{ message }}</div>
     {% endif %}
 
     <div class="container">
@@ -45,9 +45,9 @@
 
                     <label class="mr-sm-2 mr_top20_nk" for="status">Статус:</label>
                     <select class="custom-select mr-sm-2" id="status" name="status">
-                        <option value="published">Published</option>
-                        <option value="draft" selected>Draft</option>
-                        <option value="draft">Deleted</option>
+                        <option value="published">Опубликована</option>
+                        <option value="draft" selected>Черновик</option>
+                        <option value="draft">Удалён</option>
                     </select>
 
                     <label class="mr-sm-2 mr_top20_nk" for="access">Доступ:</label>
