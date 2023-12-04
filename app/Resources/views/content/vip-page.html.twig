@@ -1,0 +1,81 @@
+{# app/Resources/views/content/vip-page.html.twig #}
+{# шаблон для 'src/AppBundle/Controller/VipPageController.php' #}
+{# {{ dump(data) }}     {{ dump(category_list) }} #}
+
+
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+    {% if message %}
+        <div class="alert alert-primary message_nk" role="alert">{{ message }}</div>
+    {% endif %}
+
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <h2>Публикации автора для ::VIP:: :</h2>
+            <p>&nbsp;</p>
+
+            <div>
+                <nav class="navbar navbar-light bg-light">
+                    <form class="form-inline" action="/vip" method="get">
+                        <select class="custom-select" name="filter">
+                            <option selected value="0">Категория:</option>
+                            {% for entry in category_list %}
+                                {% if  entry.cat_id == category_id %}
+                                    <option value="{{ entry.cat_id }}" selected>{{ entry.cat_name }}</option>
+                                {% else %}
+                                    <option value="{{ entry.cat_id }}" >{{ entry.cat_name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        &nbsp; &nbsp;
+                        <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Фильтровать" />
+                    </form>
+                </nav>
+            </div>
+
+            <p>&nbsp;</p>
+
+
+            <div class="row">
+
+                {% for entry in data %}
+                    <div class="col-md-4">
+                        <div class="card mb-4 box-shadow">
+                            <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">категория: {{ entry.cat_name }}</small>
+                                    {% if entry.access == 'vip' %}
+                                        <small class="text-muted"><span class="badge badge-primary"> {{ entry.access }} </span></small>
+                                    {% endif %}
+                                </div>
+                                <h2>{{ entry.title }}</h2>
+                                {% if entry.content|length > 0 %}
+                                    <p class="card-text">{{ entry.content|striptags|slice(0, 100) ~ '...'}}</p>
+                                {% endif %}
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <a href="{{ path('article', {'id': entry.id}) }}" type="button" class="btn btn-sm btn-outline-secondary">Читать</a>
+
+                                        {% if (user_authorized is defined ) and (user_authorized|length > 1) and (user_authorized.session_user_role == 'admin') %}
+                                            <a href="{{ path('editarticle', {'id': entry.id}) }}" type="button" class="btn btn-sm btn-outline-secondary">Ред.</a>
+                                        {% endif %}
+                                    </div>
+                                    {% if entry.status == 'deleted' or entry.status == 'draft' %}
+                                        <small class="text-muted"><span class="badge badge-danger"> {{ entry.status }} </span></small>
+                                    {% endif %}
+                                    <small class="text-muted">{{ entry.date }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

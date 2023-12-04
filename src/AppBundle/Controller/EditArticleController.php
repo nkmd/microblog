@@ -51,27 +51,39 @@ class EditArticleController extends Controller
                 $checkData = new EditArticleSrv();
                 $checkDataResponse = $checkData->checkData_Update($articleId);
 
-
                 if (!$checkDataResponse) {
                     $message = 'Не все данные, были заполнены, или некоректные данные';
-                    //echo 'no ok';
-                    var_dump($checkDataResponse);
-                    die();
                 } else {
-                    // запрос в модель на добавление
-                    echo ' ok'; die();
-                    $addArticle = $this->container->get('model_add_article');
-                    $addArticleResult = $addArticle->insertArticle($checkDataResponse);
 
-                    if (!$addArticleResult) {
-                        $message = '__err: немогу добавить статью';
+                    // запрос в модель на изменение
+                    $editArticle = $this->container->get('model_edit_article');
+                    $editArticleResult = $editArticle->editArticle($checkDataResponse);
+
+                    if (!$editArticleResult) {
+                        $message = '__err: немогу обновить статью';
                     } else {
-                        $data = $addArticleResult;
-                        $message = 'Информация добавлена.';
+                        $data = $editArticleResult;
+                        $message = 'Информация обновлена.';
                     }
 
                 }
             }
+
+            /* ===  POST Удаление === */
+            if (isset($_POST['del_btn'])) {
+                $deleteArticle = $this->container->get('model_edit_article');
+                $deleteArticleResult = $deleteArticle->deleteArticle($articleId);
+
+                if (!$deleteArticleResult) {
+                    $message = '__err: немогу удалить статью';
+                } else {
+                    return $this->render('content/404-page.html.twig', array(
+                        'message' => 'Статья Удалена из БД.',
+                    ));
+                }
+
+            }
+
 
             /* === запрос контента статьи из модели === */
             $getArticleContent = $this->container->get('model_edit_article');
@@ -83,11 +95,17 @@ class EditArticleController extends Controller
             $categoriesListResponse = $categoriesList->getCategoriesList();
             $listCategories = $categoriesListResponse;
 
+            /* === запрос списка авторов статьи из модели === */
+            $getAuthorsList = $this->container->get('model_get_users');
+            $getAuthorsListResponse = $getAuthorsList->getUserByRole('admin');
+            $listAuthors = $getAuthorsListResponse;
+
             return $this->render('content/edit-article-page.html.twig', array(
                 'user_authorized' => $userAuthorized,
-                'message' => $message,
+                'message'         => $message,
                 'categories_list' => $listCategories,
-                'data' => $data,
+                'authors_list'    => $listAuthors,
+                'data'            => $data,
             ));
 
 

@@ -64,6 +64,9 @@
                                             <a href="{{ path('editarticle', {'id': entry.id}) }}" type="button" class="btn btn-sm btn-outline-secondary">Ред.</a>
                                         {% endif %}
                                     </div>
+                                    {% if entry.status == 'deleted' or entry.status == 'draft' %}
+                                        <small class="text-muted"><span class="badge badge-danger"> {{ entry.status }} </span></small>
+                                    {% endif %}
                                     <small class="text-muted">{{ entry.date }}</small>
                                 </div>
                             </div>

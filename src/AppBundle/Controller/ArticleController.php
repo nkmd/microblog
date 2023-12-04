@@ -29,6 +29,7 @@ class ArticleController extends Controller
     {
         $articleId = $id;
         $userAuthorized = '';
+        $userStatus = '';
         $message = '';
         $data  = '';
 
@@ -36,8 +37,10 @@ class ArticleController extends Controller
         $session =  new SessionSrv();
         $sessionResult = $session->startSession();
 
-        if ( isset($sessionResult['session_user_login']) && !empty($sessionResult['session_user_login']) ) {
+        if ( isset($sessionResult['session_user_login']) && !empty($sessionResult['session_user_login']) &&
+            isset($sessionResult['session_user_role'])) {
             $userAuthorized = $sessionResult;
+            $userStatus = $sessionResult['session_user_role'];
         }
 
         // Статья по ID
@@ -48,7 +51,7 @@ class ArticleController extends Controller
 
             // отправка в модель блога (статьи,публикации)
             $getArticle = $this->container->get('model_get_article');
-            $getArticleResult =  $getArticle -> getArticle($sanitizeArticleResult);
+            $getArticleResult =  $getArticle -> getArticle($sanitizeArticleResult, $userStatus);
 
             if ( $getArticleResult ) {
                 $data = $getArticleResult;

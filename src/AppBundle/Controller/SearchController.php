@@ -18,6 +18,7 @@ class SearchController extends Controller
     public function createSearchPage()
     {
         $userAuthorized = '';
+        $userStatus = '';
         $message = '';
         $searchValue = '';
         $data  = '';
@@ -26,8 +27,10 @@ class SearchController extends Controller
         $session =  new SessionSrv();
         $sessionResult = $session->startSession();
 
-        if ( isset($sessionResult['session_user_login']) && !empty($sessionResult['session_user_login']) ) {
+        if ( isset($sessionResult['session_user_login']) && !empty($sessionResult['session_user_login']) &&
+            isset($sessionResult['session_user_role'])) {
             $userAuthorized = $sessionResult;
+            $userStatus = $sessionResult['session_user_role'];
         }
 
         if (isset($_GET['q']) && !empty($_GET['q'])) {
@@ -43,7 +46,7 @@ class SearchController extends Controller
             } else {
                 // Отправить в модель поиска (по заголовку)
                 $getArticles = $this->container->get('model_get_search');
-                $getArticlesResult = $getArticles->getData($sanitizeValueResult);
+                $getArticlesResult = $getArticles->getData($sanitizeValueResult, $userStatus);
 
                 $message .= ' Найдено публикаций: ' . count($getArticlesResult);
                 $data = $getArticlesResult;
@@ -54,7 +57,7 @@ class SearchController extends Controller
         return $this->render('content/search-page.html.twig', array(
             'user_authorized' => $userAuthorized,
             'message'         => $message,
-            'search_value'    =>  $searchValue,
+            'search_value'    => $searchValue,
             'data'            => $data,
         ));
     }

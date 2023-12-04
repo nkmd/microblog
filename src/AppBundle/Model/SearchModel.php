@@ -14,15 +14,34 @@ class SearchModel
         $this->container = $container;
     }
 
-    public function getData($checkResponse) {
-//        $sql    = "SELECT * FROM articles LEFT JOIN category ON articles.category_id = category.id WHERE `title` LIKE '%{$checkResponse}%' ORDER BY articles.date DESC ";
-        $sql    = "SELECT A.id, A.title, A.content, A.date, A.author_id, A.status, A.access, A.category_id,
+    public function getData($checkResponse, $userStatus) {
+        if($userStatus == 'admin') {
+            $sql    = "SELECT A.id, A.title, A.content, A.date, A.author_id, A.status, A.access, A.category_id,
                    C.id AS cat_id, C.name AS cat_name, C.slug AS cat_slug
                    FROM articles AS A
                    LEFT JOIN category AS C
                    ON A.category_id = C.id
                    WHERE A.title LIKE '%{$checkResponse}%'
                    ORDER BY A.date DESC";
+        } elseif($userStatus == 'vip') {
+            $sql    = "SELECT A.id, A.title, A.content, A.date, A.author_id, A.status, A.access, A.category_id,
+                   C.id AS cat_id, C.name AS cat_name, C.slug AS cat_slug
+                   FROM articles AS A
+                   LEFT JOIN category AS C
+                   ON A.category_id = C.id
+                   WHERE A.title LIKE '%{$checkResponse}%' AND A.status = 'published'
+                   ORDER BY A.date DESC";
+        } else {
+            $sql    = "SELECT A.id, A.title, A.content, A.date, A.author_id, A.status, A.access, A.category_id,
+                   C.id AS cat_id, C.name AS cat_name, C.slug AS cat_slug
+                   FROM articles AS A
+                   LEFT JOIN category AS C
+                   ON A.category_id = C.id
+                   WHERE A.title LIKE '%{$checkResponse}%' AND A.access != 'vip' AND A.status = 'published'
+                   ORDER BY A.date DESC";
+        }
+
+
         $conn   = $this->container->get('database_connection');
         $result = $conn->fetchAll($sql);
         return $result;

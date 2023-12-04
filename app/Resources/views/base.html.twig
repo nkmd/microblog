@@ -27,11 +27,16 @@
 
         {% include 'parts/footer.html.twig' %}
 
-        <script src="{{ asset('assets/js/jquery.slim.min.js') }}"></script>
+        <script src="{{ asset('assets/js/jquery-3.6.0.min.js') }}"></script>
         <script src="{{ asset('assets/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
         <script src="{{ asset('assets/js/popper.min.js') }}"></script>
         <script src="{{ asset('assets/js/holder.min.js') }}"></script>
+
+        <script src="{{ asset('assets/tinymce/js/tinymce/tinymce.min.js') }}"></script>
+        <script src="{{ asset('assets/js/tinymce-jquery.min.js') }}"></script>
+
         <script src="{{ asset('assets/js/main.js') }}"></script>
+
         {% block javascripts %}{% endblock %}
     </body>
 </html>

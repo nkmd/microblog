@@ -7,7 +7,7 @@
 {% block body %}
 
     {% if message %}
-        <<div class="alert alert-primary message_nk" role="alert">{{ message }}</div>
+        <div class="alert alert-primary message_nk" role="alert">{{ message }}</div>
     {% endif %}
 
     <div class="container">
@@ -16,8 +16,7 @@
 
 
         {% for entry in data %}
-            <form action="{{ path('editarticle', {'id': entry.id}) }}" method="post">
-
+        <form action="{{ path('editarticle', {'id': entry.id}) }}" method="post">
 
             <div class="form-row">
                 <!-- col Left -->
@@ -26,8 +25,13 @@
                     <label for="title" class="mr_top20_nk">Заголовок:</label>
                     <input type="text" class="form-control" id="title" placeholder="" name="title" value="{{entry.title}}">
 
-                    <label for="content" class="mr_top20_nk">Контент:</label>
-                    <textarea class="form-control" id="content" style="min-height: 250px" name="content"> {{entry.content}}</textarea>
+                    <div class="custom-file mr_top20_nk">
+                        <input type="file" class="custom-file-input" id="url_img" lang="ru" name="url_img" multiple accept="image/*" disabled>
+                        <label class="custom-file-label" for="url_img" data-browse="Выбрать файл">Изображение. - в платной версии так и быть, сделаю :D </label>
+                    </div>
+
+                    <label for="content" class="mr_top20_nk">Контент: </label>
+                    <textarea class="form-control" id="content" style="min-height: 250px" name="content"> {{entry.content|raw}}</textarea>
 
                 </div>
 
@@ -37,7 +41,15 @@
                     <input type="text" class="form-control" id="id"  name="id" value="{{entry.id}}" readonly>
 
                     <label for="author" class="mr_top20_nk">Автор:</label>
-                    <input type="text" class="form-control" id="author" name="author_id" value="{{entry.author_id}}" readonly>
+                        <select class="custom-select mr-sm-2" id="author" name="author_id">
+                            {% for author in authors_list %}
+                                {% if author.usr_id == entry.author_id%}
+                                    <option value="{{ author.usr_id }}" selected>{{ author.usr_name }}</option>
+                                {% else %}
+                                    <option value="{{ author.usr_id }}">{{ author.usr_name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
 
                     <label for="date" class="mr_top20_nk">Дата:</label>
                     <input type="date" class="form-control" id="date" placeholder="" name="date" value="{{entry.date}}">
@@ -70,7 +82,7 @@
             </div>
 
             <input type="submit" class="btn btn-primary" name="edit_btn" value="Редактировать" />
-            <input type="reset" class="btn btn-outline-primary" value="Очистить" />
+            <input type="reset" name="reset_btn" class="btn btn-outline-success" value="Очистить" >
             <input type="submit" class="btn btn-outline-danger" name="del_btn" value="Удалить оконьчательно." />
         </form>
         {% endfor %}
@@ -78,6 +90,7 @@
     </div>
 
 
-    {{ dump(data) }}
+{#    {{ dump(data) }}#}
+{#    {{ dump(authors_list) }}#}
 
 {% endblock %}

@@ -20,6 +20,7 @@ class BlogController extends Controller
     public function createBlogPage()
     {
         $userAuthorized = '';
+        $userStatus = '';
         $getCategoryList ='';
         $categoryId = '';
         $message = '';
@@ -29,8 +30,10 @@ class BlogController extends Controller
         $session =  new SessionSrv();
         $sessionResult = $session->startSession();
 
-        if ( isset($sessionResult['session_user_login']) && !empty($sessionResult['session_user_login']) ) {
+        if ( isset($sessionResult['session_user_login']) && !empty($sessionResult['session_user_login']) &&
+            isset($sessionResult['session_user_role'])) {
             $userAuthorized = $sessionResult;
+            $userStatus = $sessionResult['session_user_role'];
         }
 
         if(isset($_GET['filter']) && $_GET['filter'] != 0) {
@@ -50,7 +53,7 @@ class BlogController extends Controller
 
             // отправка в модель блога (статьи,публикации)
             $getArticles = $this->container->get('model_get_articles');
-            $getArticlesResult =  $getArticles -> getArticlesByCategory($sanitizeCategoryResult);
+            $getArticlesResult =  $getArticles -> getArticlesByCategory($sanitizeCategoryResult, $userStatus);
             $data = $getArticlesResult;
 
         } else {
@@ -67,7 +70,7 @@ class BlogController extends Controller
 
                 // отправка в модель блога (статьи,публикации)
                 $getArticles = $this->container->get('model_get_articles');
-                $getArticlesResult =  $getArticles -> getArticles();
+                $getArticlesResult =  $getArticles -> getArticles($userStatus);
                 $data = $getArticlesResult;
 //                var_dump($data);die();
             }

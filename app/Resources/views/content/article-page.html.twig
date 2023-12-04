@@ -22,26 +22,26 @@
                 <!-- blog-post -->
                 {% for entry in data %}
                 <div class="blog-post">
-                    <h2 class="blog-post-title"> {{ entry.title }} </h2>
+                    <h2 class="blog-post-title"> {{ entry.title }}</h2>
                     <div class="d-flex justify-content-between align-items-center">
                         <p class="blog-post-meta"> Категория: {{ entry.cat_name }} </p>
                         <p class="blog-post-meta"> {{ entry.date }}</p>
                         {% if entry.access == 'vip' %}
                             <p class="text-muted">Доступ: <span class="badge badge-primary"> {{ entry.access }} </span></p>
                         {% endif %}
+                        {% if entry.status == 'deleted' or entry.status == 'draft' %}
+                            <p class="text-muted"><span class="badge badge-danger"> {{ entry.status }} </span></p>
+                        {% endif %}
                     </div>
-                    <p> {{ entry.content|raw }} </p>
+                    <div> {{ entry.content|raw }} </div>
                 </div>
                 <!-- /.blog-post -->
 
-                <nav class="blog-pagination">
-                    <a class="btn btn-outline-primary" href="{{ path('article', {'id': (entry.id - 1)}) }}" title="Назад"> &laquo; </a>
-                    <a class="btn btn-outline-primary" href="{{ path('article', {'id': (entry.id + 1)}) }}" title="Вперёд"> &raquo; </a>
-
+                <div class="d-flex justify-content-between align-items-center">
                     {% if (user_authorized is defined ) and (user_authorized|length > 1) and (user_authorized.session_user_role == 'admin') %}
                         <a href="{{ path('editarticle', {'id': entry.id}) }}" type="button" class="btn  btn-success">Редактировать</a>
                     {% endif %}
-                </nav>
+                </div>
                 {% endfor  %}
 
 

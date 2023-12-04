@@ -46,6 +46,24 @@ class UsersManagementModel
 
     }
 
+    public function getUserByRole($usr_role) {
+        try {
+            $sql = "SELECT U.id AS usr_id, U.name AS usr_name, U.login AS usr_login, U.role AS usr_role
+                    FROM users AS U
+                    WHERE role = :role
+                   ";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue("role", $usr_role);
+            $stmt->execute();
+            $result = $stmt->fetchAll();
+        } catch (\Exception $e) {
+            var_dump($e->getMessage());
+            exit;
+        }
+        return $result;
+
+    }
+
     public function insertUser($data) {
         $usr_name   = $data['usr_name'];
         $usr_login  = $data['usr_login'];

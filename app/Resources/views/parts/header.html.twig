@@ -17,11 +17,11 @@
                         <li class="nav-item">
                                 <a class="nav-link" href="{{ path('search') }}"> Поиск </a>
                         </li>
-{#                        <li class="nav-item">#}
-{#                                <a class="nav-link disabled" href="#">Vip</a>#}
-{#                        </li>#}
 
                         {% if user_authorized is defined  and user_authorized|length > 1 %}
+                        <li class="nav-item">
+                             <a class="nav-link" href="{{ path('vip') }}"> :: VIP :: </a>
+                        </li>
                         <li class="nav-item">
                                 <a class="nav-link" href="{{ path('login') }}"> [ Выход ]  </a>
                         </li>

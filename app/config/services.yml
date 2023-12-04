@@ -30,6 +30,10 @@ services:
         class: AppBundle\Model\BlogModel
         arguments: [ "@service_container" ]
 
+    model_get_articles_vip:
+        class: AppBundle\Model\VipModel
+        arguments: [ "@service_container" ]
+
     model_get_search:
         class: AppBundle\Model\SearchModel
         arguments: [ "@service_container" ]

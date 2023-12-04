@@ -23,6 +23,7 @@ class HomeController extends Controller
 
        $banner = 'background: #000 url(/assets/img/bg_banner_2.jpg);';
         $userAuthorized = '';
+        $userStatus = '';
         $category = '';
         $message = '';
         $data  = '';
@@ -31,8 +32,10 @@ class HomeController extends Controller
         $session =  new SessionSrv();
         $sessionResult = $session->startSession();
 
-        if ( isset($sessionResult['session_user_login']) && !empty($sessionResult['session_user_login']) ) {
-            $userAuthorized = $sessionResult;
+        if ( isset($sessionResult['session_user_login']) && !empty($sessionResult['session_user_login']) &&
+             isset($sessionResult['session_user_role'])) {
+                $userAuthorized = $sessionResult;
+                $userStatus = $sessionResult['session_user_role'];
         }
 
         // валидация блога(не тр. на буд.)
@@ -45,7 +48,7 @@ class HomeController extends Controller
 
             // отправка в модель блога (статьи,публикации)
             $getArticles = $this->container->get('model_get_articles_home_page');
-            $getArticlesResult =  $getArticles -> getArticles();
+            $getArticlesResult =  $getArticles -> getArticles($userStatus);
             $data = $getArticlesResult;
 //                var_dump($data);die();
         }

@@ -25,7 +25,7 @@ class UsersManagementController extends Controller
         $sessionResult = $session->startSession();
 
 
-        // #### ВТОРИЗОВАН. ####
+        // #### АВТОРИЗОВАН. ####
         if ( isset($sessionResult['session_user_login']) && !empty($sessionResult['session_user_login']) &&
              isset($sessionResult['session_user_role']) && $sessionResult['session_user_role'] == 'admin'){
              $userAuthorized = $sessionResult;

@@ -20,7 +20,8 @@ class AddArticleService
             isset($_POST['access'])      && !empty($_POST['access'])
         ){
             $title        = trim(htmlspecialchars(htmlentities($_POST['title'], ENT_QUOTES )));
-            $content      = trim(htmlspecialchars(htmlentities($_POST['content'], ENT_QUOTES )));
+            //$content      = trim(htmlspecialchars(htmlentities($_POST['content'], ENT_QUOTES )));
+            $content      = $_POST['content'];  // WYSIWYG HTML editor
             $date         = $_POST['date'];
             $author_id    = $_SESSION['id'];
             $category_id  = $_POST['category_id'];

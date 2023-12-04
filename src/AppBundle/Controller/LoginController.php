@@ -32,10 +32,6 @@ class LoginController extends Controller
             $message .= 'Ваш логин: ' . $userAuthorized['session_user_login'] . '; ';
             $message .= 'Ваш статус: ' . $userAuthorized['session_user_role'] . '; ';
 
-        // debug:
-//            var_dump($userAuthorized);
-//        } else {
-//            var_dump($userAuthorized);
         }
 
         // ВЫХОД  из кабинета

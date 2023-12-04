@@ -14,7 +14,6 @@ class CategoryModel
 
     public function getCategoryById($category) {
             try {
-                //$sql = "SELECT * FROM category WHERE '$category' = `id` ";
                 $sql = "SELECT C.id AS cat_id, C.name AS cat_name, C.slug AS cat_slug
                         FROM category AS C
                         WHERE '$category' = C.slug
@@ -31,7 +30,6 @@ class CategoryModel
 
     public function getCategoryList() {
             try {
-                //$sql = "SELECT * FROM category ORDER BY `slug` ";
                 $sql = "SELECT C.id AS cat_id, C.name AS cat_name, C.slug AS cat_slug
                         FROM category AS C
                         ORDER BY C.slug";

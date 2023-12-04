@@ -30,33 +30,46 @@ class EditArticleModel
     }
 
 
-    public function editArticle($addArticle) {
-//        $session_id = $addArticle['session_id'];
-//        $category  = $addArticle['category'];
-//        $status    = $addArticle['status'];
-//        $access    = $addArticle['access'];
-//        $date      = $addArticle['date'];
-//        $title     = $addArticle['title'];
-//        $content   = $addArticle['content'];
-
-        //return $addArticle;
+    public function editArticle($editArticle) {
+        $id          = $editArticle['id'];
+        $title       = $editArticle['title'];
+        $content     = $editArticle['content'];
+        $date        = $editArticle['date'];
+        $author_id   = $editArticle['author_id'];
+        $category_id = $editArticle['category_id'];
+        $status      = $editArticle['status'];
+        $access      = $editArticle['access'];
 
         try {
-            //$sql = "INSERT INTO articles(title, content) VALUES(title = :title, content = :content)";
-            //$sql = "INSERT INTO articles(title, content, date, author_id, status, access) VALUES('aaa4', 'aaa aaa aaa', '2023-12-01', 1, 'test', 'guest')";
-            $sql = "INSERT INTO articles(title, content, date, author_id, status, access) VALUES(:title, :content, :date, :author_id, :status, :access)";
+            $sql = "UPDATE articles 
+                    SET title = :title, content = :content, date = :date, author_id = :author_id, category_id = :category_id, status = :status, access = :access 
+                    WHERE id = :id ";
             $stmt = $this->connection->prepare($sql);
-            $stmt->bindValue('title',   $addArticle['title']);
-            $stmt->bindValue('content', $addArticle['content']);
-            $stmt->bindValue('date', $addArticle['date']);
-            $stmt->bindValue('author_id', $addArticle['session_id']);
-            $stmt->bindValue('status', $addArticle['status']);
-            $stmt->bindValue('access', $addArticle['access']);
+            $stmt->bindValue('id',         $id);
+            $stmt->bindValue('title',      $title);
+            $stmt->bindValue('content',    $content);
+            $stmt->bindValue('date',       $date);
+            $stmt->bindValue('author_id',  $author_id);
+            $stmt->bindValue('category_id', $category_id);
+            $stmt->bindValue('status', $status);
+            $stmt->bindValue('access', $access);
             $stmt->execute();
-//            var_dump ($stmt);die();
+            $result = 'Ok update';
+        } catch (\Exception $e) {
+            var_dump($e->getMessage());
+            exit;
+        }
+        return $result;
+    }
 
-//            $result = $stmt->fetchAll();
-            $result = 'Ok insert';
+
+    public function deleteArticle($articleId) {
+        try {
+            $sql = "DELETE FROM articles WHERE id = :id ";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->bindValue("id", $articleId);
+            $stmt->execute();
+            $result = true;
         } catch (\Exception $e) {
             var_dump($e->getMessage());
             exit;
@@ -65,13 +78,3 @@ class EditArticleModel
     }
 
 }
-
-//$login = $checkResponse['login'];
-//$pass  = $checkResponse['pass'];
-//try {
-//    $sql = "SELECT * FROM users WHERE login = :login AND pass = :pass";
-//    $stmt = $this->connection->prepare($sql);
-//    $stmt->bindValue("login", $login);
-//    $stmt->bindValue("pass", $pass);
-//    $stmt->execute();
-//    $result = $stmt->fetchAll();

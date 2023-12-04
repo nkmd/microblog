@@ -37,7 +37,7 @@
                             <div class="d-flex justify-content-between align-items-center">
                                 <small class="text-muted">категория: {{ entry.cat_name }}</small>
                                 {% if entry.access == 'vip' %}
-                                <small class="text-muted"><span class="badge badge-primary"> {{ entry.access }} </span></small>
+                                    <small class="text-muted"><span class="badge badge-primary"> {{ entry.access }} </span></small>
                                 {% endif %}
                             </div>
                             <h2>{{ entry.title }}</h2>
@@ -53,6 +53,9 @@
                                     {% endif %}
 
                                 </div>
+                                {% if entry.status == 'deleted' or entry.status == 'draft' %}
+                                    <small class="text-muted"><span class="badge badge-danger"> {{ entry.status }} </span></small>
+                                {% endif %}
                                 <small class="text-muted">{{ entry.date }}</small>
                             </div>
                         </div>

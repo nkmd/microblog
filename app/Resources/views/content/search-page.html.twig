@@ -53,6 +53,9 @@
                                         {% endif %}
 
                                     </div>
+                                    {% if entry.status == 'deleted' or entry.status == 'draft' %}
+                                        <small class="text-muted"><span class="badge badge-danger"> {{ entry.status }} </span></small>
+                                    {% endif %}
                                     <small class="text-muted">{{ entry.date }}</small>
                                 </div>
                             </div>

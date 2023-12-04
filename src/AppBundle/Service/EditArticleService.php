@@ -21,7 +21,8 @@ class EditArticleService
 
             $id           = $_POST['id'];
             $title        = trim(htmlspecialchars(htmlentities($_POST['title'], ENT_QUOTES )));
-            $content      = trim(htmlspecialchars(htmlentities($_POST['content'], ENT_QUOTES )));
+            //$content      = trim(htmlspecialchars(htmlentities($_POST['content'], ENT_QUOTES )));
+            $content      = $_POST['content']; // WYSIWYG HTML editor
             $date         = $_POST['date'];
             $author_id    = $_POST['author_id'];
             $category_id  = $_POST['category_id'];
@@ -43,7 +44,6 @@ class EditArticleService
         } else {
             return false;
         }
-
     }
 
 
