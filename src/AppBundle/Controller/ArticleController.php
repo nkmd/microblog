@@ -23,7 +23,6 @@ class ArticleController extends Controller
     /**
      * @Route("/article/{id}", name="article", methods={"GET"})
      */
-    /*  // requirements={"id"="\d+"} */
 
     public function createArticlePage($id)
     {
@@ -77,6 +76,8 @@ class ArticleController extends Controller
         ));
     }
 
+
+    // немного юмора, да философий
     public function withMeaningMessage($val) {
         $happyMessageGenerator = $this->container->get('app.message_generator');
         // shorter syntax

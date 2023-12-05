@@ -46,7 +46,6 @@ class EditArticleController extends Controller
 
             /* ===  POST Редактирование === */
             if (isset($_POST['edit_btn'])) {
-
                 // Валидация введённых данных.
                 $checkData = new EditArticleSrv();
                 $checkDataResponse = $checkData->checkData_Update($articleId);
@@ -65,7 +64,6 @@ class EditArticleController extends Controller
                         $data = $editArticleResult;
                         $message = 'Информация обновлена.';
                     }
-
                 }
             }
 
@@ -81,7 +79,6 @@ class EditArticleController extends Controller
                         'message' => 'Статья Удалена из БД.',
                     ));
                 }
-
             }
 
 
@@ -109,7 +106,7 @@ class EditArticleController extends Controller
             ));
 
 
-            // #### НЕ АВТОРИЗОВАН. ####
+        // #### НЕ АВТОРИЗОВАН. ####
         } else {
             return $this->render('content/404-page.html.twig', array(
                 'message' => 'Не авторизированый пользователь или недостаточно привилегий !',

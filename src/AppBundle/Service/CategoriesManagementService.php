@@ -59,23 +59,18 @@ class CategoriesManagementService
             $cat_slug_current_r = str_replace(" ", '', $_POST['cat_slug_current']);
             $cat_slug_current = trim(htmlspecialchars(htmlentities($cat_slug_current_r, ENT_QUOTES )));
 
-
             $response = array(
                 'cat_id'           => $cat_id,
                 'cat_name'         => $cat_name,
                 'cat_slug'         => $cat_slug,
                 'cat_slug_current' => $cat_slug_current,
-
             );
             return $response;
-
 
         } else {
             return $response;
         }
     }
-
-
 
 
 }

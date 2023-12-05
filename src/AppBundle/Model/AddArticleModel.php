@@ -40,13 +40,3 @@ class AddArticleModel
     }
 
 }
-
-//$login = $checkResponse['login'];
-//$pass  = $checkResponse['pass'];
-//try {
-//    $sql = "SELECT * FROM users WHERE login = :login AND pass = :pass";
-//    $stmt = $this->connection->prepare($sql);
-//    $stmt->bindValue("login", $login);
-//    $stmt->bindValue("pass", $pass);
-//    $stmt->execute();
-//    $result = $stmt->fetchAll();

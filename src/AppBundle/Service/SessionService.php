@@ -1,19 +1,15 @@
 <?php
-
+/**
+ *  Сесии пользователя
+ */
 namespace AppBundle\Service;
 
 class SessionService
 {
-
-    /*
-     *  старт сессии
-     *  если был авторизрван - вернуть данные польз.
-     *  return array();
-     */
     public function startSession(){
         session_name('nk_session');// имя сесии
-        //ini_set('session.gc_maxlifetime',120);// жизнь сесии 'sec'
-        ini_set('session.save_path', $_SERVER['DOCUMENT_ROOT'] .'/session_dir/');// директория сесии
+        ini_set('session.gc_maxlifetime',3600);// жизнь сесии 'sec'
+        ini_set('session.save_path', $_SERVER['DOCUMENT_ROOT'] .'/_session_dir/');// директория сесии временно.
         session_start();
 
         $sessionData = array();
@@ -36,8 +32,6 @@ class SessionService
 //            session_destroy();
 //            echo '<h2 style="color:red;"> время сессии истекло </h2><br>';
 //        }
-
-
 
     public function setUserSession($userData){
         $_SESSION['id']    = $userData[0]['id'];

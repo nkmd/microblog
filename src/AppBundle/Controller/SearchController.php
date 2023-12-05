@@ -51,7 +51,6 @@ class SearchController extends Controller
                 $message .= ' Найдено публикаций: ' . count($getArticlesResult);
                 $data = $getArticlesResult;
             }
-
         }
 
         return $this->render('content/search-page.html.twig', array(
@@ -60,8 +59,8 @@ class SearchController extends Controller
             'search_value'    => $searchValue,
             'data'            => $data,
         ));
+
+
     }
-
-
 }
 

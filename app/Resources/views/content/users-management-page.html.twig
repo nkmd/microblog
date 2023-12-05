@@ -1,5 +1,6 @@
 {# app/Resources/views/content/users-management-page.html.twig #}
 {# шаблон для 'src/AppBundle/Controller/UsersManagementController.php' #}
+{#    {{ dump(data) }}#}
 
 {% extends 'base.html.twig' %}
 
@@ -9,94 +10,93 @@
         <div class="alert alert-primary message_nk" role="alert">{{ message }}</div>
     {% endif %}
 
-<div class="container">
-    <h1>Управление пользователями</h1>
-    <hr>
-    <h3>Список Пользователей:</h3>
+    <div class="container">
+        <h1>Управление пользователями</h1>
+        <hr>
+        <h3>Список Пользователей:</h3>
 
 
-        <table class="table table-hover  table-responsive-sm">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">ID</th>
-                <th scope="col">Имя</th>
-                <th scope="col">Логин</th>
-                <th scope="col">Пароль</th>
-                <th scope="col">Права</th>
-                <th scope="col">Обнов.</th>
-                <th scope="col">Удал.</th>
-            </tr>
-            </thead>
-            <tbody>
-
-            {% for entry in list_users %}
-            <form method="post" action="/usersmanagement">
+            <table class="table table-hover  table-responsive-sm">
+                <thead>
                 <tr>
-                    <th scope="row">-</th>
-                    <td><input type="text" class="form-control" name="usr_id" value="{{ entry.usr_id }}" style="max-width:50px;" readonly /></td>
-                    <td><input type="text" class="form-control" name="usr_name" maxlength="65"     value="{{ entry.usr_name }}" /></td>
-                    <td>
-                        <input type="text" class="form-control" name="usr_login" value="{{ entry.usr_login}}"  />
-                        <input type="hidden" class="form-control" name="usr_login_current" value="{{ entry.usr_login}}"  />
-                    </td>
-                    <td><input type="password" class="form-control" name="usr_pass" maxlength="25" value="{{ entry.usr_pass}}" /></td>
-                    <td>
-                        <select class="form-control" name="usr_role" >
-                            <option value="admin" {% if entry.usr_role == 'admin' %} selected {% endif %} > ADMIN </option>
-                            <option value="vip" {% if entry.usr_role == 'vip' %} selected {% endif %} > VIP </option>
-                        </select>
-                    </td>
-                    <td><input type="submit" name="update_btn" class="btn btn-primary btn-sm" value="Обнов." /> </td>
-                    <td><input type="submit" name="delete_btn" class="btn btn-danger btn-sm" value="Удал." /> </td>
+                    <th scope="col">#</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Имя</th>
+                    <th scope="col">Логин</th>
+                    <th scope="col">Пароль</th>
+                    <th scope="col">Права</th>
+                    <th scope="col">Обнов.</th>
+                    <th scope="col">Удал.</th>
                 </tr>
-            </form>
-            {% endfor %}
+                </thead>
+                <tbody>
 
-            </tbody>
-        </table>
+                {% for entry in list_users %}
+                <form method="post" action="/usersmanagement">
+                    <tr>
+                        <th scope="row">-</th>
+                        <td><input type="text" class="form-control" name="usr_id" value="{{ entry.usr_id }}" style="max-width:50px;" readonly /></td>
+                        <td><input type="text" class="form-control" name="usr_name" maxlength="65"     value="{{ entry.usr_name }}" /></td>
+                        <td>
+                            <input type="text" class="form-control" name="usr_login" value="{{ entry.usr_login}}"  />
+                            <input type="hidden" class="form-control" name="usr_login_current" value="{{ entry.usr_login}}"  />
+                        </td>
+                        <td><input type="password" class="form-control" name="usr_pass" maxlength="25" value="{{ entry.usr_pass}}" /></td>
+                        <td>
+                            <select class="form-control" name="usr_role" >
+                                <option value="admin" {% if entry.usr_role == 'admin' %} selected {% endif %} > ADMIN </option>
+                                <option value="vip" {% if entry.usr_role == 'vip' %} selected {% endif %} > VIP </option>
+                            </select>
+                        </td>
+                        <td><input type="submit" name="update_btn" class="btn btn-primary btn-sm" value="Обнов." /> </td>
+                        <td><input type="submit" name="delete_btn" class="btn btn-danger btn-sm" value="Удал." /> </td>
+                    </tr>
+                </form>
+                {% endfor %}
+
+                </tbody>
+            </table>
 
 
-    <div style="margin-bottom:45px;">&nbsp;</div>
-    <hr>
+        <div style="margin-bottom:45px;">&nbsp;</div>
+        <hr>
 
 
-    <h3>Добавление нового пользователя:</h3>
+        <h3>Добавление нового пользователя:</h3>
 
-    <form method="post" action="/usersmanagement">
-        <div class="form-row">
-            <div class="col-6">
-                <input type="text" class="form-control" placeholder="Имя" maxlength="65" name="usr_name">
+        <form method="post" action="/usersmanagement">
+            <div class="form-row">
+                <div class="col-6">
+                    <input type="text" class="form-control" placeholder="Имя" maxlength="65" name="usr_name">
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Логин" maxlength="25" name="usr_login">
+                </div>
             </div>
-            <div class="col">
-                <input type="text" class="form-control" placeholder="Логин" maxlength="25" name="usr_login">
+            <div>&nbsp;</div>
+            <div class="form-row">
+                <div class="col-6">
+                    <input type="password" class="form-control" placeholder="Пароль" maxlength="25" name="usr_pass">
+                </div>
+                <div class="col">
+                    <select class="custom-select mr-sm-2" name="usr_role">
+                        <option value="vip">VIP</option>
+                        <option value="admin">ADMIN</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <div>&nbsp;</div>
-        <div class="form-row">
-            <div class="col-6">
-                <input type="password" class="form-control" placeholder="Пароль" maxlength="25" name="usr_pass">
+            <div>&nbsp;</div>
+            <div class="form-row">
+                <div class="col">
+                    <input type="submit" name="add_btn" class="btn btn-success" value="Добавить" />
+                    <input type="reset" name="reset_btn" class="btn btn-outline-success" value="Очистить" />
+                </div>
+                <div class="col">
+                    &nbsp;
+                </div>
             </div>
-            <div class="col">
-                <select class="custom-select mr-sm-2" name="usr_role">
-                    <option value="vip">VIP</option>
-                    <option value="admin">ADMIN</option>
-                </select>
-            </div>
-        </div>
-        <div>&nbsp;</div>
-        <div class="form-row">
-            <div class="col">
-                <input type="submit" name="add_btn" class="btn btn-success" value="Добавить" />
-                <input type="reset" name="reset_btn" class="btn btn-outline-success" value="Очистить" />
-            </div>
-            <div class="col">
-                &nbsp;
-            </div>
-        </div>
-    </form>
+        </form>
 
-{#    {{ dump(data) }}#}
-</div>
+    </div>
 
 {% endblock %}

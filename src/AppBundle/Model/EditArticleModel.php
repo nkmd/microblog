@@ -12,7 +12,6 @@ class EditArticleModel
         $this->connection = $dbalConnection;
     }
 
-
     public function getArticleContent($articleId) {
         try {
             $sql = "SELECT A.id, A.title, A.content, A.date, A.author_id, A.category_id, A.status, A.access          
@@ -28,7 +27,6 @@ class EditArticleModel
         }
         return $result;
     }
-
 
     public function editArticle($editArticle) {
         $id          = $editArticle['id'];
@@ -61,7 +59,6 @@ class EditArticleModel
         }
         return $result;
     }
-
 
     public function deleteArticle($articleId) {
         try {

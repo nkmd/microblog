@@ -30,8 +30,6 @@ class UsersManagementController extends Controller
              isset($sessionResult['session_user_role']) && $sessionResult['session_user_role'] == 'admin'){
              $userAuthorized = $sessionResult;
 
-            //var_dump($sessionResult['session_user_role']); die();
-
             /* ===  POST добавление === */
             if(isset($_POST['add_btn'])){
                 // Валидация введённых данных.
@@ -52,10 +50,8 @@ class UsersManagementController extends Controller
                         $data = $addUserResult;
                         $message = 'Информация добавлена.';
                     }
-
                 }
             }
-
 
             /* ===  POST Обновление === */
             if(isset($_POST['update_btn'])){
@@ -84,7 +80,6 @@ class UsersManagementController extends Controller
                 }
             }
 
-
             /* === POST Удаление === */
             if(isset($_POST['delete_btn'])){
                 // Валидация переданных данных (id).
@@ -105,9 +100,7 @@ class UsersManagementController extends Controller
                         $message = 'Пользователь Удалён';
                     }
                 }
-
             }
-
 
             /* === запрос списка пользователей из модели (для табл. !Обязательно в конце!) === */
             $usersList = $this->container->get('model_get_users');
@@ -122,7 +115,7 @@ class UsersManagementController extends Controller
             ));
 
 
-            // #### НЕ АВТОРИЗОВАН. ####
+        // #### НЕ АВТОРИЗОВАН. ####
         } else {
             return $this->render('content/404-page.html.twig', array(
                 'message' => 'Не авторизированый пользователь или недостаточно привилегий !',
@@ -130,5 +123,5 @@ class UsersManagementController extends Controller
         }
 
 
-    } /*fn*/
+    }
 }

@@ -23,6 +23,11 @@
                     <label for="title" class="mr_top20_nk">Заголовок:</label>
                     <input type="text" class="form-control" id="title" placeholder="" name="title">
 
+                    <div class="custom-file mr_top20_nk">
+                        <input type="file" class="custom-file-input" id="url_img" lang="ru" name="url_img" multiple accept="image/*" disabled>
+                        <label class="custom-file-label" for="url_img" data-browse="Выбрать файл">Изображение. - в платной версии так и быть, сделаю :D </label>
+                    </div>
+
                     <label for="content" class="mr_top20_nk">Контент:</label>
                     <textarea class="form-control" id="content" style="min-height: 250px" name="content"> </textarea>
 
@@ -39,7 +44,7 @@
                     <label class="mr-sm-2 mr_top20_nk" for="category">Категория:</label>
                     <select class="custom-select mr-sm-2" id="category" name="category_id">
                         {% for entry in categories_list %}
-                        <option value="{{ entry.cat_id }}">{{ entry.cat_name }}</option>
+                        <option value="{{ entry.cat_id }}" {% if entry.cat_id == 1 %} selected {% endif %}>{{ entry.cat_name }}</option>
                         {% endfor %}
                     </select>
 

@@ -25,7 +25,6 @@ class CategoriesManagementModel
             exit;
         }
         return $result;
-
     }
 
     public function getCategoryBySlug($cat_slug) {
@@ -43,7 +42,6 @@ class CategoriesManagementModel
             exit;
         }
         return $result;
-
     }
 
     public function insertCategory($data) {
@@ -116,5 +114,4 @@ class CategoriesManagementModel
         }
         return $result;
     }
-
 }

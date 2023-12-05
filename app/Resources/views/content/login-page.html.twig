@@ -9,29 +9,29 @@
         <div class="alert alert-primary message_nk" role="alert">{{ message }}</div>
     {% endif %}
 
-<div class="container">
+    <div class="container">
 
-    <div class="login-form">
-        {% if user_authorized == false %}
-        <form class="form-signin" method="post" action="/login" >
-            <img class="mb-4" src="{{ asset('assets/img/login.png') }}" alt="" width="72" height="72">
-            <h1 class="h3 mb-3 font-weight-normal">Авторизация:</h1>
-            <label for="inputLogin" class="sr-only">Login</label>
-            <input type="text" name="login" id="inputLogin" class="form-control" placeholder="Login" required autofocus>
-            <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" name="pass" id="inputPassword" class="form-control" placeholder="Password" required>
-            <input class="btn btn-lg btn-primary btn-block" type="submit" name="enter_btn" value="Вход">
-            <p class="mt-5 mb-3 text-muted"> </p>
-        </form>
-        {% else %}
-            <form class="form-signin" method="post"  action="/login">
-                <input class="btn btn-lg btn-primary btn-block" type="submit" class="" name="exit_btn" value="Выход" />
-            </form>
-        {% endif %}
+        <div class="login-form">
+            {% if user_authorized == false %}
+                <form class="form-signin" method="post" action="/login" >
+                    <img class="mb-4" src="{{ asset('assets/img/login.png') }}" alt="" width="72" height="72">
+                    <h1 class="h3 mb-3 font-weight-normal">Авторизация:</h1>
+                    <label for="inputLogin" class="sr-only">Login</label>
+                    <input type="text" name="login" id="inputLogin" class="form-control" placeholder="Login" required autofocus>
+                    <label for="inputPassword" class="sr-only">Password</label>
+                    <input type="password" name="pass" id="inputPassword" class="form-control" placeholder="Password" required>
+                    <input class="btn btn-lg btn-primary btn-block" type="submit" name="enter_btn" value="Вход">
+                    <p class="mt-5 mb-3 text-muted"> </p>
+                </form>
+            {% else %}
+                <form class="form-signin" method="post"  action="/login">
+                    <input class="btn btn-lg btn-primary btn-block" type="submit" class="" name="exit_btn" value="Выход" />
+                </form>
+            {% endif %}
+        </div>
+
+        <p>ADMIN Login:nikolay Pass:123</p>
+        <p>VIP Login:petr Pass:123</p>
+
     </div>
-
-    <p>ADMIN Login:nikolay Pass:123</p>
-    <p>VIP Login:petr Pass:123</p>
-
-</div>
 {% endblock %}

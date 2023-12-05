@@ -25,7 +25,6 @@ class UsersManagementModel
             exit;
         }
         return $result;
-
     }
 
     public function getUserByLogin($usr_login) {
@@ -43,7 +42,6 @@ class UsersManagementModel
             exit;
         }
         return $result;
-
     }
 
     public function getUserByRole($usr_role) {
@@ -61,7 +59,6 @@ class UsersManagementModel
             exit;
         }
         return $result;
-
     }
 
     public function insertUser($data) {
@@ -92,7 +89,6 @@ class UsersManagementModel
         } else {
             return false;
         }
-
     }
 
     public function updateUser($data) {

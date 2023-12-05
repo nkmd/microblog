@@ -14,12 +14,6 @@ class LoginModel
         $this->connection = $dbalConnection;
     }
 
-    public function getData($checkResponse)
-    {
-        $result = $this->searchUser($checkResponse);
-        return $result;
-    }
-
     public function searchUser($checkResponse) {
         $login = $checkResponse['login'];
         $pass  = $checkResponse['pass'];
@@ -34,7 +28,6 @@ class LoginModel
             var_dump($e->getMessage());
             exit;
         }
-
         return $result;
     }
 

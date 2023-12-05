@@ -5,7 +5,6 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Service\BlogService as BlogSrv;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -21,7 +20,7 @@ class HomeController extends Controller
     public function createHomePage()
     {
 
-       $banner = 'background: #000 url(/assets/img/bg_banner_2.jpg);';
+        $banner = 'background: #000 url(/assets/img/bg_banner_2.jpg);';
         $userAuthorized = '';
         $userStatus = '';
         $category = '';
@@ -38,7 +37,7 @@ class HomeController extends Controller
                 $userStatus = $sessionResult['session_user_role'];
         }
 
-        // валидация блога(не тр. на буд.)
+        // валидация блога(не тр. - на буд.)
         $sanitizeData = new HomeSrv();
         $sanitizeDataResult = $sanitizeData->checkData();
         if (!$sanitizeDataResult) {
@@ -50,7 +49,6 @@ class HomeController extends Controller
             $getArticles = $this->container->get('model_get_articles_home_page');
             $getArticlesResult =  $getArticles -> getArticles($userStatus);
             $data = $getArticlesResult;
-//                var_dump($data);die();
         }
 
 
@@ -60,7 +58,6 @@ class HomeController extends Controller
             'banner' => $banner,
             'data' => $data,
         ));
+
     }
-
-
 }

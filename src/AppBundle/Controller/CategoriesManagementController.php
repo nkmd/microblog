@@ -1,5 +1,7 @@
 <?php
-
+/**
+ *  контролер CategoriesManagement
+ */
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -30,8 +32,6 @@ class CategoriesManagementController extends Controller
              isset($sessionResult['session_user_role']) && $sessionResult['session_user_role'] == 'admin'){
              $userAuthorized = $sessionResult;
 
-            //var_dump($sessionResult['session_user_role']); die();
-
             /* ===  POST добавление === */
             if(isset($_POST['add_btn'])){
                 // Валидация введённых данных.
@@ -52,7 +52,6 @@ class CategoriesManagementController extends Controller
                         $data = $addCategoryResult;
                         $message = 'Информация добавлена.';
                     }
-
                 }
             }
 
@@ -105,7 +104,6 @@ class CategoriesManagementController extends Controller
                         $message = 'Категория Удалена.';
                     }
                 }
-
             }
 
 
@@ -122,7 +120,7 @@ class CategoriesManagementController extends Controller
             ));
 
 
-            // #### НЕ АВТОРИЗОВАН. ####
+        // #### НЕ АВТОРИЗОВАН. ####
         } else {
             return $this->render('content/404-page.html.twig', array(
                 'message' => 'Не авторизированый пользователь или недостаточно привилегий !',
@@ -130,5 +128,5 @@ class CategoriesManagementController extends Controller
         }
 
 
-    } /*fn*/
+    }
 }

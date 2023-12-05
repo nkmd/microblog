@@ -1,5 +1,6 @@
 {# app/Resources/views/content/categories-management-page.html.twig #}
 {# шаблон для 'src/AppBundle/Controller/СategoriesManagementController.php' #}
+{#    {{ dump(data) }}#}
 
 {% extends 'base.html.twig' %}
 
@@ -9,74 +10,73 @@
         <div class="alert alert-primary message_nk" role="alert">{{ message }}</div>
     {% endif %}
 
-<div class="container">
-    <h1>Управление Категориями</h1>
-    <hr>
-    <h3>Список Категорий:</h3>
+    <div class="container">
+        <h1>Управление Категориями</h1>
+        <hr>
+        <h3>Список Категорий:</h3>
 
-        <table class="table table-hover  table-sm  table-responsive-sm">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">ID</th>
-                <th scope="col">Название</th>
-                <th scope="col">Слаг</th>
-                <th scope="col">Об.</th>
-                <th scope="col">Уд.</th>
-            </tr>
-            </thead>
-
-            <tbody>
-            {% for entry in list_categories %}
-            <form method="post" action="/categoriesmanagement">
+            <table class="table table-hover  table-sm  table-responsive-sm">
+                <thead>
                 <tr>
-                    <th scope="row">-</th>
-                    <td><input type="text" class="form-control" name="cat_id" value="{{ entry.cat_id }}" style="max-width:50px;" readonly /></td>
-                    <td><input type="text" class="form-control" name="cat_name" maxlength="65"  value="{{ entry.cat_name }}" /></td>
-                    <td>
-                        <input type="text" class="form-control" name="cat_slug" value="{{ entry.cat_slug}}"  />
-                        <input type="hidden" class="form-control" name="cat_slug_current" value="{{ entry.cat_slug}}"  />
-                    </td>
-
-                    <td><input type="submit" name="update_btn" class="btn btn-primary btn-sm" value="Обнов." /> </td>
-                    <td><input type="submit" name="delete_btn" class="btn btn-danger btn-sm" value="Удал." /> </td>
+                    <th scope="col">#</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Название</th>
+                    <th scope="col">Слаг</th>
+                    <th scope="col">Об.</th>
+                    <th scope="col">Уд.</th>
                 </tr>
-            </form>
-            {% endfor %}
+                </thead>
 
-            </tbody>
-        </table>
+                <tbody>
+                {% for entry in list_categories %}
+                <form method="post" action="/categoriesmanagement">
+                    <tr>
+                        <th scope="row">-</th>
+                        <td><input type="text" class="form-control" name="cat_id" value="{{ entry.cat_id }}" style="max-width:50px;" readonly /></td>
+                        <td><input type="text" class="form-control" name="cat_name" maxlength="65"  value="{{ entry.cat_name }}" /></td>
+                        <td>
+                            <input type="text" class="form-control" name="cat_slug" value="{{ entry.cat_slug}}"  />
+                            <input type="hidden" class="form-control" name="cat_slug_current" value="{{ entry.cat_slug}}"  />
+                        </td>
+
+                        <td><input type="submit" name="update_btn" class="btn btn-primary btn-sm" value="Обнов." /> </td>
+                        <td><input type="submit" name="delete_btn" class="btn btn-danger btn-sm" value="Удал." /> </td>
+                    </tr>
+                </form>
+                {% endfor %}
+
+                </tbody>
+            </table>
 
 
-    <div style="margin-bottom:45px;">&nbsp;</div>
-    <hr>
+        <div style="margin-bottom:45px;">&nbsp;</div>
+        <hr>
 
 
-    <h3>Добавление новой категории:</h3>
+        <h3>Добавление новой категории:</h3>
 
-    <form method="post" action="categoriesmanagement">
-        <div class="form-row">
-            <div class="col-6">
-                <input type="text" class="form-control" placeholder="Название категории" maxlength="65" name="cat_name">
+        <form method="post" action="categoriesmanagement">
+            <div class="form-row">
+                <div class="col-6">
+                    <input type="text" class="form-control" placeholder="Название категории" maxlength="65" name="cat_name">
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="Слаг категории" maxlength="25" name="cat_slug">
+                </div>
             </div>
-            <div class="col">
-                <input type="text" class="form-control" placeholder="Слаг категории" maxlength="25" name="cat_slug">
-            </div>
-        </div>
-        <div>&nbsp;</div>
+            <div>&nbsp;</div>
 
-        <div class="form-row">
-            <div class="col">
-                <input type="submit" name="add_btn" class="btn btn-success" value="Добавить" />
-                <input type="reset" name="reset_btn" class="btn btn-outline-success" value="Очистить" />
+            <div class="form-row">
+                <div class="col">
+                    <input type="submit" name="add_btn" class="btn btn-success" value="Добавить" />
+                    <input type="reset" name="reset_btn" class="btn btn-outline-success" value="Очистить" />
+                </div>
+                <div class="col">
+                    &nbsp;
+                </div>
             </div>
-            <div class="col">
-                &nbsp;
-            </div>
-        </div>
-    </form>
+        </form>
 
-{#    {{ dump(data) }}#}
-</div>
+    </div>
 
 {% endblock %}

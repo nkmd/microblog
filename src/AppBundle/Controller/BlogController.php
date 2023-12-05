@@ -72,7 +72,6 @@ class BlogController extends Controller
                 $getArticles = $this->container->get('model_get_articles');
                 $getArticlesResult =  $getArticles -> getArticles($userStatus);
                 $data = $getArticlesResult;
-//                var_dump($data);die();
             }
         }
 
@@ -85,18 +84,3 @@ class BlogController extends Controller
         ));
     }
 }
-
-
-
-/**
- * // Matches /blog exactly
- *
- * // @Route("/blog", name="blog_list")
- */
-
-
-/**
- * // Matches /blog/*
- *
- * // @Route("/blog/{slug}", name="blog_show")
- */

@@ -85,6 +85,6 @@ class VipController extends Controller
             ));
         }
 
-    } // .fn
+    }
 }
 

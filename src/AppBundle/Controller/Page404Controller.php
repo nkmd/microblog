@@ -4,7 +4,6 @@
  */
 namespace AppBundle\Controller;
 
-use AppBundle\Service\SessionService as SessionSrv;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 

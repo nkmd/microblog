@@ -59,14 +59,8 @@ class AddArticleController extends Controller
                         $data = $addArticleResult;
                         $message = 'Информация добавлена.';
                     }
-
                 }
             }
-
-
-
-
-
 
             return $this->render('content/add-article-page.html.twig', array(
                 'user_authorized' => $userAuthorized,
@@ -85,5 +79,5 @@ class AddArticleController extends Controller
 
 
 
-    } /*fn*/
+    }
 }

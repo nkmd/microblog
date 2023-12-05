@@ -1,5 +1,7 @@
 <?php
-
+/**
+ *  Юмор/философия - Генерируем рэндом фразы
+ */
 namespace AppBundle\Service;
 
 class MessageService

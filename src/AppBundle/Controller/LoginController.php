@@ -31,7 +31,6 @@ class LoginController extends Controller
             $message = 'Приветствуем: ' . $userAuthorized['session_user_name'] . '; ';
             $message .= 'Ваш логин: ' . $userAuthorized['session_user_login'] . '; ';
             $message .= 'Ваш статус: ' . $userAuthorized['session_user_role'] . '; ';
-
         }
 
         // ВЫХОД  из кабинета
@@ -39,6 +38,7 @@ class LoginController extends Controller
             $endSession = $session->destroyUserSession();
             if($endSession){
                 $userAuthorized = '';
+                $message = '';
             }
         }
 
@@ -56,14 +56,14 @@ class LoginController extends Controller
 
                 // Запрос в модель | array('login','pass')
                 $getUser = $this->container->get('model_get_user');
-                $getUserResponse = $getUser->getData($sanitizeValueResponse);
+                $getUserResponse = $getUser->searchUser($sanitizeValueResponse); //array user
 
-                // авторизирован - запись в СЕСИЮ
+                // если аутинтифицирован - запись в СЕСИЮ, и обновить стр.
                 if(count($getUserResponse) != 0){
-                    $setUserSession = $session->setUserSession($getUserResponse);
+                    $setUserSession = $session->setUserSession($getUserResponse); //true
                     if ($setUserSession){
-                        $userAuthorized = $setUserSession;
-                        $message = 'Добро пожаловать: ' . $userAuthorized['session_user_login'];
+                        header("Location: /login");
+                        exit;
                     }
 
                 } else {
@@ -71,10 +71,12 @@ class LoginController extends Controller
                 }
         }
 
+
+
         return $this->render('content/login-page.html.twig', array(
             'message'         => $message,
             'user_authorized' => $userAuthorized,
         ));
-    }
 
+    }
 }

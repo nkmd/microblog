@@ -77,7 +77,6 @@ class UsersManagementService
             );
             return $response;
 
-
         } else {
             return $response;
         }
