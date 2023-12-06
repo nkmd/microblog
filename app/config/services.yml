@@ -65,3 +65,10 @@ services:
     model_get_categories:
         class: AppBundle\Model\CategoriesManagementModel
         arguments: [ "@database_connection" ]
+
+
+#### Redirect if Route Not Found ####
+    kernel.listener.kernel_request:
+        class: AppBundle\Controller\ErrorRedirectController
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }

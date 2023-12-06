@@ -76,6 +76,7 @@ class EditArticleController extends Controller
                     $message = '__err: немогу удалить статью';
                 } else {
                     return $this->render('content/404-page.html.twig', array(
+                        'user_authorized' => $userAuthorized,
                         'message' => 'Статья Удалена из БД.',
                     ));
                 }
